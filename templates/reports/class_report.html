@@ -1,0 +1,395 @@
+﻿{% extends 'base.html' %}
+
+{% block heading %}Class Report{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+
+    <h3>Class Report</h3>
+
+    <form method="get" class="toolbar">
+
+        <div>
+            <label>Grade</label>
+
+            <select name="grade">
+
+                <option value="9" {% if grade == 9 %}selected{% endif %}>
+                    Grade 9
+                </option>
+
+                <option value="10" {% if grade == 10 %}selected{% endif %}>
+                    Grade 10
+                </option>
+
+                <option value="11" {% if grade == 11 %}selected{% endif %}>
+                    Grade 11
+                </option>
+
+                <option value="12" {% if grade == 12 %}selected{% endif %}>
+                    Grade 12
+                </option>
+
+            </select>
+        </div>
+
+
+        <div>
+            <label>Section</label>
+
+            <select name="section">
+
+                <option value="ALL" {% if section == "ALL" %}selected{% endif %}>
+                    All Sections
+                </option>
+
+                <option value="A" {% if section == "A" %}selected{% endif %}>
+                    Section A
+                </option>
+
+                <option value="B" {% if section == "B" %}selected{% endif %}>
+                    Section B
+                </option>
+
+                <option value="C" {% if section == "C" %}selected{% endif %}>
+                    Section C
+                </option>
+
+            </select>
+        </div>
+
+
+        {% if grade == 11 or grade == 12 %}
+
+        <div>
+
+            <label>Stream</label>
+
+            <select name="stream">
+
+                <option value="">
+                    All Streams
+                </option>
+
+                <option value="NATURAL" {% if stream == "NATURAL" %}selected{% endif %}>
+                    Natural
+                </option>
+
+                <option value="SOCIAL" {% if stream == "SOCIAL" %}selected{% endif %}>
+                    Social
+                </option>
+
+            </select>
+
+        </div>
+
+        {% endif %}
+
+
+        <div>
+
+            <label>&nbsp;</label>
+
+            <button type="submit" class="btn btn-brand">
+                Load Report
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div class="panel">
+
+    <h3>Class Summary</h3>
+
+    <div class="toolbar">
+
+        <div>
+            <strong>Total Students</strong><br>
+            {{ total_students }}
+        </div>
+
+        <div>
+            <strong>Passed</strong><br>
+            {{ passed_students }}
+        </div>
+
+        <div>
+            <strong>Failed</strong><br>
+            {{ failed_students }}
+        </div>
+
+        <div>
+            <strong>Pass Rate</strong><br>
+            {{ pass_percentage|floatformat:2 }}%
+        </div>
+
+        <div>
+            <strong>Fail Rate</strong><br>
+            {{ fail_percentage|floatformat:2 }}%
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if rows %}
+
+    <!-- GRADE HEADING -->
+
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+        margin-top: 25px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid var(--brand);
+    ">
+
+        <h2 style="margin: 0;">
+            Grade {{ grade }}
+        </h2>
+
+        <span style="font-weight: 600;">
+            Class Report
+        </span>
+
+    </div>
+
+
+    {% if grade == 11 or grade == 12 %}
+
+        <!-- STREAM GROUPS -->
+
+        {% regroup rows by student.stream as stream_groups %}
+
+        {% for stream_group in stream_groups %}
+
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 15px;
+                margin-top: 15px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid var(--brand);
+            ">
+
+                <h3 style="margin: 0;">
+                    {{ stream_group.grouper|title }} Stream
+                </h3>
+
+                <span style="font-weight: 600;">
+                    Class Report
+                </span>
+
+            </div>
+
+
+            {% regroup stream_group.list by student.section as section_groups %}
+
+            {% for section_group in section_groups %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 9px 15px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid var(--brand);
+                ">
+
+                    <h3 style="margin: 0;">
+                        Section {{ section_group.grouper }}
+                    </h3>
+
+                    <span style="font-weight: 600;">
+                        {{ section_group.list|length }}
+                        student{{ section_group.list|length|pluralize }}
+                    </span>
+
+                </div>
+
+
+                <div class="panel table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Rank</th>
+                                <th>Student ID</th>
+                                <th>Student</th>
+                                <th>Section</th>
+                                <th>Average</th>
+                                <th>Result</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for row in section_group.list %}
+
+                            <tr>
+
+                                <td>{{ row.rank }}</td>
+
+                                <td>
+                                    {{ row.student.student_id }}
+                                </td>
+
+                                <td>
+                                    {{ row.student }}
+                                </td>
+
+                                <td>
+                                    {{ row.student.section }}
+                                </td>
+
+                                <td>
+                                    {{ row.average|floatformat:2 }}
+                                </td>
+
+                                <td>
+
+                                    {% if row.passed %}
+                                        <strong>PASS</strong>
+                                    {% else %}
+                                        <strong>FAIL</strong>
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% endfor %}
+
+        {% endfor %}
+
+
+    {% else %}
+
+        <!-- GRADES 9 AND 10 -->
+
+        {% regroup rows by student.section as section_groups %}
+
+        {% for section_group in section_groups %}
+
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 15px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid var(--brand);
+            ">
+
+                <h3 style="margin: 0;">
+                    Section {{ section_group.grouper }}
+                </h3>
+
+                <span style="font-weight: 600;">
+                    {{ section_group.list|length }}
+                    student{{ section_group.list|length|pluralize }}
+                </span>
+
+            </div>
+
+
+            <div class="panel table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Rank</th>
+                            <th>Student ID</th>
+                            <th>Student</th>
+                            <th>Section</th>
+                            <th>Average</th>
+                            <th>Result</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for row in section_group.list %}
+
+                        <tr>
+
+                            <td>{{ row.rank }}</td>
+
+                            <td>
+                                {{ row.student.student_id }}
+                            </td>
+
+                            <td>
+                                {{ row.student }}
+                            </td>
+
+                            <td>
+                                {{ row.student.section }}
+                            </td>
+
+                            <td>
+                                {{ row.average|floatformat:2 }}
+                            </td>
+
+                            <td>
+
+                                {% if row.passed %}
+                                    <strong>PASS</strong>
+                                {% else %}
+                                    <strong>FAIL</strong>
+                                {% endif %}
+
+                            </td>
+
+                        </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% endfor %}
+
+    {% endif %}
+
+
+{% else %}
+
+    <div class="panel">
+
+        <p>
+            No students found for Grade {{ grade }}.
+        </p>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

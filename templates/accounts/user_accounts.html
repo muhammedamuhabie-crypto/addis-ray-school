@@ -1,0 +1,768 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}User Accounts - Addis Ray Secondary School{% endblock %}
+
+{% block heading %}User Accounts{% endblock %}
+
+{% block content %}
+
+<style>
+/* =========================================================
+   USER ACCOUNTS — PROFESSIONAL DESIGN
+   ========================================================= */
+
+.user-accounts-page {
+    width: 100%;
+    max-width: 1450px;
+    margin: 0 auto;
+    padding: 4px 0 30px;
+}
+
+/* ---------- Cards ---------- */
+
+.user-accounts-page .ua-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.055);
+    margin-bottom: 22px;
+    overflow: hidden;
+}
+
+.user-accounts-page .ua-card-header {
+    padding: 20px 24px;
+    border-bottom: 1px solid #eeeeee;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.user-accounts-page .ua-card-title {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 750;
+    color: #222222;
+}
+
+.user-accounts-page .ua-card-subtitle {
+    margin: 5px 0 0;
+    color: #777777;
+    font-size: 12px;
+}
+
+.user-accounts-page .ua-card-body {
+    padding: 24px;
+}
+
+/* ---------- Orange-red accent ---------- */
+
+.user-accounts-page .ua-accent {
+    border-top: 4px solid #e85d3f;
+}
+
+.user-accounts-page .ua-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 7px 12px;
+    border-radius: 20px;
+    background: #fff1ed;
+    color: #d94d31;
+    font-size: 10px;
+    font-weight: 800;
+    letter-spacing: .4px;
+    text-transform: uppercase;
+    white-space: nowrap;
+}
+
+/* ---------- Form ---------- */
+
+.user-accounts-page .ua-form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+}
+
+.user-accounts-page .ua-field {
+    min-width: 0;
+}
+
+.user-accounts-page .ua-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #555555;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.user-accounts-page .ua-field input,
+.user-accounts-page .ua-field select {
+    width: 100%;
+    min-height: 44px;
+    box-sizing: border-box;
+    padding: 9px 12px;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #333333;
+    font-size: 13px;
+    transition: border-color .18s ease, box-shadow .18s ease;
+}
+
+.user-accounts-page .ua-field input:focus,
+.user-accounts-page .ua-field select:focus {
+    outline: none;
+    border-color: #e85d3f;
+    box-shadow: 0 0 0 3px rgba(232, 93, 63, .12);
+}
+
+.user-accounts-page .ua-error {
+    margin-top: 5px;
+    color: #d94d31;
+    font-size: 11px;
+}
+
+/* ---------- Buttons ---------- */
+
+.user-accounts-page .ua-actions {
+    margin-top: 22px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.user-accounts-page .ua-btn {
+    min-height: 43px;
+    padding: 9px 20px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 750;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all .18s ease;
+}
+
+.user-accounts-page .ua-btn-primary {
+    border: 1px solid #e85d3f;
+    background: #e85d3f;
+    color: #ffffff;
+}
+
+.user-accounts-page .ua-btn-primary:hover {
+    background: #d94d31;
+    border-color: #d94d31;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(232, 93, 63, .25);
+}
+
+.user-accounts-page .ua-btn-secondary {
+    border: 1px solid #d6d6d6;
+    background: #ffffff;
+    color: #555555;
+}
+
+.user-accounts-page .ua-btn-secondary:hover {
+    background: #f7f7f7;
+    color: #333333;
+}
+
+/* ---------- Lookup ---------- */
+
+.user-accounts-page .ua-search-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    gap: 12px;
+    align-items: end;
+}
+
+.user-accounts-page .ua-search-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.user-accounts-page .ua-help {
+    margin-top: 7px;
+    color: #888888;
+    font-size: 11px;
+}
+
+.user-accounts-page .ua-result-message {
+    margin-top: 18px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    background: #fff7f4;
+    border: 1px solid #f6d7ce;
+    color: #9d402d;
+    font-size: 12px;
+}
+
+.user-accounts-page .ua-no-result {
+    margin-top: 18px;
+    padding: 11px 14px;
+    border-radius: 8px;
+    background: #fff8e8;
+    border: 1px solid #f0dfb5;
+    color: #8a681f;
+    font-size: 12px;
+}
+
+/* ---------- Tables ---------- */
+
+.user-accounts-page .ua-table-wrap {
+    width: 100%;
+    overflow-x: auto;
+    border: 1px solid #e8e8e8;
+    border-radius: 10px;
+}
+
+.user-accounts-page .ua-table {
+    width: 100%;
+    min-width: 850px;
+    border-collapse: collapse;
+    background: #ffffff;
+}
+
+.user-accounts-page .ua-table th {
+    padding: 13px 15px;
+    background: #f7f7f7;
+    border-bottom: 1px solid #e4e4e4;
+    color: #666666;
+    font-size: 10px;
+    font-weight: 800;
+    text-align: left;
+    text-transform: uppercase;
+    letter-spacing: .45px;
+    white-space: nowrap;
+}
+
+.user-accounts-page .ua-table td {
+    padding: 14px 15px;
+    border-bottom: 1px solid #eeeeee;
+    color: #444444;
+    font-size: 13px;
+    vertical-align: middle;
+}
+
+.user-accounts-page .ua-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+.user-accounts-page .ua-table tbody tr:hover {
+    background: #fff9f7;
+}
+
+.user-accounts-page .ua-name {
+    color: #222222;
+    font-weight: 700;
+}
+
+.user-accounts-page .ua-username {
+    color: #d94d31;
+    font-weight: 750;
+}
+
+.user-accounts-page .ua-muted {
+    color: #888888;
+}
+
+/* ---------- Responsive ---------- */
+
+@media (max-width: 850px) {
+
+    .user-accounts-page .ua-form-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .user-accounts-page .ua-search-row {
+        grid-template-columns: 1fr;
+    }
+
+    .user-accounts-page .ua-search-actions {
+        width: 100%;
+    }
+
+    .user-accounts-page .ua-search-actions .ua-btn {
+        flex: 1;
+    }
+}
+
+@media (max-width: 600px) {
+
+    .user-accounts-page {
+        padding-bottom: 20px;
+    }
+
+    .user-accounts-page .ua-card-header {
+        padding: 17px;
+        align-items: flex-start;
+        flex-direction: column;
+    }
+
+    .user-accounts-page .ua-card-body {
+        padding: 17px;
+    }
+
+    .user-accounts-page .ua-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .user-accounts-page .ua-actions .ua-btn {
+        width: 100%;
+    }
+
+    .user-accounts-page .ua-search-actions {
+        flex-direction: column;
+    }
+
+    .user-accounts-page .ua-search-actions .ua-btn {
+        width: 100%;
+    }
+}
+</style>
+
+
+<div class="user-accounts-page">
+
+    <!-- =====================================================
+         CREATE ACCOUNT
+         ===================================================== -->
+
+    <div class="ua-card ua-accent">
+
+        <div class="ua-card-header">
+
+            <div>
+                <h3 class="ua-card-title">
+                    Create New Account
+                </h3>
+
+                <p class="ua-card-subtitle">
+                    Create a user account for a director, teacher, or student.
+                </p>
+            </div>
+
+        </div>
+
+        <div class="ua-card-body">
+
+            <form method="post">
+
+                {% csrf_token %}
+
+                <div class="ua-form-grid">
+
+                    <div class="ua-field">
+                        <label for="{{ form.username.id_for_label }}">
+                            Username
+                        </label>
+
+                        {{ form.username }}
+
+                        {% for error in form.username.errors %}
+                            <div class="ua-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="ua-field">
+                        <label for="{{ form.email.id_for_label }}">
+                            Email
+                        </label>
+
+                        {{ form.email }}
+
+                        {% for error in form.email.errors %}
+                            <div class="ua-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="ua-field">
+                        <label for="{{ form.first_name.id_for_label }}">
+                            First Name
+                        </label>
+
+                        {{ form.first_name }}
+
+                        {% for error in form.first_name.errors %}
+                            <div class="ua-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="ua-field">
+                        <label for="{{ form.last_name.id_for_label }}">
+                            Last Name
+                        </label>
+
+                        {{ form.last_name }}
+
+                        {% for error in form.last_name.errors %}
+                            <div class="ua-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="ua-field">
+                        <label for="{{ form.role.id_for_label }}">
+                            Role
+                        </label>
+
+                        {{ form.role }}
+
+                        {% for error in form.role.errors %}
+                            <div class="ua-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+
+                    <div class="ua-field">
+                        <label for="{{ form.password.id_for_label }}">
+                            Password
+                        </label>
+
+                        {{ form.password }}
+
+                        {% for error in form.password.errors %}
+                            <div class="ua-error">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+                    </div>
+
+                </div>
+
+
+                <div class="ua-actions">
+
+                    <button
+                        type="submit"
+                        class="ua-btn ua-btn-primary"
+                    >
+                        Create Account
+                    </button>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         STUDENT ACCOUNT LOOKUP
+         ===================================================== -->
+
+    <div class="ua-card ua-accent">
+
+        <div class="ua-card-header">
+
+            <div>
+                <h3 class="ua-card-title">
+                    Student Account Lookup
+                </h3>
+
+                <p class="ua-card-subtitle">
+                    Find a student's username and registered email address.
+                </p>
+            </div>
+
+            <span class="ua-badge">
+                Director Only
+            </span>
+
+        </div>
+
+
+        <div class="ua-card-body">
+
+            <form method="get">
+
+                <div class="ua-search-row">
+
+                    <div class="ua-field">
+
+                        <label for="student-search">
+                            Search Student
+                        </label>
+
+                        <input
+                            id="student-search"
+                            type="text"
+                            name="student_search"
+                            value="{{ student_search }}"
+                            class="form-control"
+                            placeholder="Student name or Student ID"
+                            autocomplete="off"
+                        >
+
+                        <div class="ua-help">
+                            Search by first name, father's name,
+                            grandfather's name, or Student ID.
+                        </div>
+
+                    </div>
+
+
+                    <div class="ua-search-actions">
+
+                        <button
+                            type="submit"
+                            class="ua-btn ua-btn-primary"
+                        >
+                            Search
+                        </button>
+
+                        {% if student_search %}
+
+                            <a
+                                href="{% url 'user_accounts' %}"
+                                class="ua-btn ua-btn-secondary"
+                            >
+                                Clear
+                            </a>
+
+                        {% endif %}
+
+                    </div>
+
+                </div>
+
+            </form>
+
+
+            {% if student_search %}
+
+                {% if student_accounts %}
+
+                    <div class="ua-result-message">
+                        <strong>
+                            {{ student_accounts|length }}
+                            student{{ student_accounts|length|pluralize }}
+                        </strong>
+                        found for
+                        <strong>"{{ student_search }}"</strong>.
+                    </div>
+
+                {% else %}
+
+                    <div class="ua-no-result">
+                        No student was found for
+                        <strong>"{{ student_search }}"</strong>.
+                    </div>
+
+                {% endif %}
+
+            {% endif %}
+
+
+            {% if student_accounts %}
+
+                <div class="ua-table-wrap" style="margin-top: 18px;">
+
+                    <table class="ua-table">
+
+                        <thead>
+
+                            <tr>
+                                <th>Student</th>
+                                <th>Student ID</th>
+                                <th>Grade</th>
+                                <th>Section</th>
+                                <th>Username</th>
+                                <th>Email</th>
+                            </tr>
+
+                        </thead>
+
+                        <tbody>
+
+                            {% for student in student_accounts %}
+
+                                <tr>
+
+                                    <td>
+                                        <span class="ua-name">
+                                            {{ student.first_name }}
+                                            {{ student.father_name }}
+                                            {{ student.grandfather_name }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {{ student.student_id }}
+                                    </td>
+
+                                    <td>
+                                        Grade {{ student.grade }}
+                                    </td>
+
+                                    <td>
+                                        {{ student.section }}
+                                    </td>
+
+                                    <td>
+                                        <span class="ua-username">
+                                            {{ student.user.username }}
+                                        </span>
+                                    </td>
+
+                                    <td>
+                                        {% if student.user.email %}
+                                            {{ student.user.email }}
+                                        {% else %}
+                                            <span class="ua-muted">
+                                                No email registered
+                                            </span>
+                                        {% endif %}
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% elif not student_search %}
+
+                <div class="ua-help" style="margin-top: 18px;">
+                    Enter a student's name or Student ID to find their
+                    account information.
+                </div>
+
+            {% endif %}
+
+        </div>
+
+    </div>
+
+
+    <!-- =====================================================
+         EXISTING USER ACCOUNTS
+         ===================================================== -->
+
+    <div class="ua-card ua-accent">
+
+        <div class="ua-card-header">
+
+            <div>
+                <h3 class="ua-card-title">
+                    Existing User Accounts
+                </h3>
+
+                <p class="ua-card-subtitle">
+                    Overview of accounts currently registered in the system.
+                </p>
+            </div>
+
+        </div>
+
+
+        <div class="ua-card-body">
+
+            <div class="ua-table-wrap">
+
+                <table class="ua-table">
+
+                    <thead>
+
+                        <tr>
+                            <th>Email</th>
+                            <th>Username</th>
+                            <th>Name</th>
+                            <th>Role</th>
+                            <th>Active</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for u in users %}
+
+                            <tr>
+
+                                <td>
+                                    {{ u.email }}
+                                </td>
+
+                                <td>
+                                    <span class="ua-username">
+                                        {{ u.username }}
+                                    </span>
+                                </td>
+
+                                <td>
+                                    {{ u.get_full_name }}
+                                </td>
+
+                                <td>
+                                    {{ u.get_role_display }}
+                                </td>
+
+                                <td>
+
+                                    {% if u.is_active %}
+
+                                        <span class="ua-badge">
+                                            Yes
+                                        </span>
+
+                                    {% else %}
+
+                                        <span class="ua-muted">
+                                            No
+                                        </span>
+
+                                    {% endif %}
+
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+
+                                <td colspan="5">
+                                    <span class="ua-muted">
+                                        No user accounts found.
+                                    </span>
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}

@@ -1,0 +1,329 @@
+﻿{% extends 'base.html' %}
+
+{% block heading %}Student Results{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+
+    <div class="panel-header">
+
+        <div>
+            <h2>Select Student</h2>
+
+            <p class="muted">
+                Choose a student to view their academic results.
+            </p>
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if students %}
+
+    {% regroup students by grade as grade_groups %}
+
+
+    {% for grade_group in grade_groups %}
+
+        <!-- GRADE HEADING -->
+
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--brand);
+        ">
+
+            <h2 style="margin: 0;">
+                Grade {{ grade_group.grouper }}
+            </h2>
+
+            <span style="font-weight: 600;">
+                Academic Results
+            </span>
+
+        </div>
+
+
+        {% if grade_group.grouper == 11 or grade_group.grouper == 12 %}
+
+            <!-- STREAM GROUPING FOR GRADES 11 AND 12 -->
+
+            {% regroup grade_group.list by stream as stream_groups %}
+
+
+            {% for stream_group in stream_groups %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px 15px;
+                    margin-top: 15px;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid var(--brand);
+                ">
+
+                    <h3 style="margin: 0;">
+                        {{ stream_group.grouper }}
+                        Stream
+                    </h3>
+
+                    <span style="font-weight: 600;">
+                        Select Student
+                    </span>
+
+                </div>
+
+
+                <!-- SECTION GROUPING -->
+
+                {% regroup stream_group.list by section as section_groups %}
+
+
+                {% for section_group in section_groups %}
+
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 9px 15px;
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        border-bottom: 2px solid var(--brand);
+                    ">
+
+                        <h3 style="margin: 0;">
+                            Section {{ section_group.grouper }}
+                        </h3>
+
+                        <span style="font-weight: 600;">
+                            {{ section_group.list|length }}
+                            student{{ section_group.list|length|pluralize }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="panel table-wrap">
+
+                        <table>
+
+                            <thead>
+
+                                <tr>
+                                    <th>Student ID</th>
+                                    <th>Student Name</th>
+                                    <th>Grade</th>
+                                    <th>Section</th>
+                                    <th>Stream</th>
+                                    <th>Rank</th>
+                                  <th>Academic Year</th>
+                                    <th>Action</th>
+                                </tr>
+
+                            </thead>
+
+
+                            <tbody>
+
+                                {% for student in section_group.list %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ student.student_id }}
+                                        </td>
+
+                                        <td>
+                                            {{ student.first_name }}
+                                            {{ student.father_name }}
+                                        </td>
+
+                                        <td>
+                                            {{ student.grade }}
+                                        </td>
+
+                                        <td>
+                                            {{ student.section }}
+                                        </td>
+
+                                        <td>
+                                            {{ student.get_stream_display }}
+                                        </td>
+
+                                      <td>
+                                          {% if student.result_rank %}
+                                              {{ student.result_rank }}
+                                          {% else %}
+                                              -
+                                          {% endif %}
+                                      </td>
+
+                                        <td>
+                                            {{ student.academic_year }}
+                                        </td>
+
+                                        <td>
+                                            <a
+                                                href="{% url 'student_results' student.pk %}"
+                                                class="btn btn-outline-brand"
+                                            >
+                                                View Results
+                                            </a>
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                {% endfor %}
+
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <!-- GRADES 9 AND 10 -->
+
+            {% regroup grade_group.list by section as section_groups %}
+
+
+            {% for section_group in section_groups %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 9px 15px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid var(--brand);
+                ">
+
+                    <h3 style="margin: 0;">
+                        Section {{ section_group.grouper }}
+                    </h3>
+
+                    <span style="font-weight: 600;">
+                        {{ section_group.list|length }}
+                        student{{ section_group.list|length|pluralize }}
+                    </span>
+
+                </div>
+
+
+                <div class="panel table-wrap">
+
+                    <table>
+
+                        <thead>
+
+                            <tr>
+                                <th>Student ID</th>
+                                <th>Student Name</th>
+                                <th>Grade</th>
+                                <th>Section</th>
+                                <th>Rank</th>
+                                  <th>Academic Year</th>
+                                <th>Action</th>
+                            </tr>
+
+                        </thead>
+
+
+                        <tbody>
+
+                            {% for student in section_group.list %}
+
+                                <tr>
+
+                                    <td>
+                                        {{ student.student_id }}
+                                    </td>
+
+                                    <td>
+                                        {{ student.first_name }}
+                                        {{ student.father_name }}
+                                    </td>
+
+                                    <td>
+                                        {{ student.grade }}
+                                    </td>
+
+                                    <td>
+                                        {{ student.section }}
+                                    </td>
+
+                                      <td>
+                                          {% if student.result_rank %}
+                                              {{ student.result_rank }}
+                                          {% else %}
+                                              -
+                                          {% endif %}
+                                      </td>
+
+                                    <td>
+                                        {{ student.academic_year }}
+                                    </td>
+
+                                    <td>
+                                        <a
+                                            href="{% url 'student_results' student.pk %}"
+                                            class="btn btn-outline-brand"
+                                        >
+                                            View Results
+                                        </a>
+                                    </td>
+
+                                </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endfor %}
+
+
+{% else %}
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h3>No Students</h3>
+
+                <p class="muted">
+                    No students have been registered yet.
+                </p>
+            </div>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

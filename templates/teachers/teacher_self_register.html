@@ -1,0 +1,426 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Teacher Registration - Addis Ray Secondary School{% endblock %}
+
+{% block public_content %}
+
+<style>
+.teacher-registration-page {
+    width: 100%;
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 25px 15px 40px;
+}
+
+.teacher-registration-card {
+    background: #ffffff;
+    border: 1px solid #e8e8e8;
+    border-radius: 14px;
+    box-shadow: 0 4px 18px rgba(0, 0, 0, 0.055);
+    overflow: hidden;
+}
+
+.teacher-registration-header {
+    padding: 25px 28px;
+    border-top: 4px solid #dc2626;
+    border-bottom: 1px solid #eeeeee;
+}
+
+.teacher-registration-header h1 {
+    margin: 0 0 6px;
+    color: #222222;
+    font-size: 25px;
+    font-weight: 750;
+}
+
+.teacher-registration-header p {
+    margin: 0;
+    color: #777777;
+    font-size: 13px;
+}
+
+.teacher-registration-body {
+    padding: 28px;
+}
+
+.teacher-registration-section {
+    margin-bottom: 28px;
+}
+
+.teacher-registration-section:last-of-type {
+    margin-bottom: 0;
+}
+
+.teacher-registration-section h3 {
+    margin: 0 0 7px;
+    color: #222222;
+    font-size: 18px;
+    font-weight: 750;
+}
+
+.teacher-registration-section > p {
+    margin: 0 0 20px;
+    color: #777777;
+    font-size: 12px;
+    line-height: 1.6;
+}
+
+.teacher-registration-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px 22px;
+}
+
+.teacher-registration-field {
+    min-width: 0;
+}
+
+.teacher-registration-field label {
+    display: block;
+    margin-bottom: 7px;
+    color: #555555;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.teacher-registration-field input,
+.teacher-registration-field select,
+.teacher-registration-field textarea {
+    width: 100%;
+    box-sizing: border-box;
+    min-height: 44px;
+    padding: 9px 12px;
+    border: 1px solid #d8d8d8;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #333333;
+    font-size: 13px;
+}
+
+.teacher-registration-field textarea {
+    min-height: 80px;
+    resize: vertical;
+}
+
+.teacher-registration-field input:focus,
+.teacher-registration-field select:focus,
+.teacher-registration-field textarea:focus {
+    outline: none;
+    border-color: #dc2626;
+    box-shadow: 0 0 0 3px rgba(232, 93, 63, .12);
+}
+
+.teacher-registration-field small {
+    display: block;
+    margin-top: 6px;
+    color: #888888;
+    font-size: 11px;
+    line-height: 1.5;
+}
+
+.required-star {
+    margin-left: 3px;
+    color: #dc2626;
+    font-weight: 800;
+}
+
+.teacher-registration-error {
+    margin-top: 5px;
+    color: #b91c1c;
+    font-size: 11px;
+}
+
+.teacher-registration-nonfield-error {
+    margin-bottom: 20px;
+    padding: 11px 14px;
+    border: 1px solid #f0c8bd;
+    border-radius: 8px;
+    background: #fff4f1;
+    color: #b63f28;
+    font-size: 12px;
+}
+
+.teacher-registration-divider {
+    margin: 28px 0;
+    border: 0;
+    border-top: 1px solid #eeeeee;
+}
+
+.teacher-registration-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-top: 28px;
+}
+
+.teacher-registration-btn {
+    min-height: 44px;
+    padding: 10px 22px;
+    border: 1px solid #dc2626;
+    border-radius: 8px;
+    background: #dc2626;
+    color: #ffffff;
+    font-size: 13px;
+    font-weight: 750;
+    cursor: pointer;
+    text-decoration: none;
+    transition: all .18s ease;
+}
+
+.teacher-registration-btn:hover {
+    background: #b91c1c;
+    border-color: #b91c1c;
+    color: #ffffff;
+    transform: translateY(-1px);
+    box-shadow: 0 5px 14px rgba(220, 38, 38, .25);
+}
+
+.teacher-registration-back {
+    min-height: 44px;
+    padding: 10px 20px;
+    border: 1px solid #d6d6d6;
+    border-radius: 8px;
+    background: #ffffff;
+    color: #555555;
+    font-size: 13px;
+    font-weight: 700;
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.teacher-registration-back:hover {
+    background: #f7f7f7;
+    color: #333333;
+}
+
+@media (max-width: 750px) {
+    .teacher-registration-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .teacher-registration-body {
+        padding: 20px;
+    }
+
+    .teacher-registration-header {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 520px) {
+    .teacher-registration-page {
+        padding: 15px 10px 30px;
+    }
+
+    .teacher-registration-actions {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .teacher-registration-btn,
+    .teacher-registration-back {
+        width: 100%;
+        justify-content: center;
+        box-sizing: border-box;
+    }
+}
+</style>
+
+<div class="teacher-registration-page">
+
+    <div class="teacher-registration-card">
+
+        <div class="teacher-registration-header">
+
+            <h1>Teacher Registration</h1>
+
+            <p>
+                Enter your complete school information and create
+                your teacher login account.
+            </p>
+
+        </div>
+
+        <div class="teacher-registration-body">
+
+            <form method="post" enctype="multipart/form-data">
+
+                {% csrf_token %}
+
+                {{ form.non_field_errors }}
+
+                {% if form.non_field_errors %}
+                    <div class="teacher-registration-nonfield-error">
+                        {{ form.non_field_errors }}
+                    </div>
+                {% endif %}
+
+                <div class="teacher-registration-section">
+
+                    <h3>Teacher Information</h3>
+
+                    <p>
+                        Enter your complete teacher information as registered
+                        by Addis Ray Secondary School.
+                    </p>
+
+                    <div class="teacher-registration-grid">
+
+                        {% for field in form %}
+
+                            {% if field.name != 'username' and field.name != 'email' and field.name != 'password' and field.name != 'confirm_password' %}
+
+                                <div class="teacher-registration-field">
+
+                                    <label for="{{ field.id_for_label }}">
+                                        {{ field.label }}{% if field.field.required %}<span class="required-star">*</span>{% endif %}
+                                    </label>
+
+                                    {{ field }}
+
+                                    {% if field.help_text %}
+                                        <small>{{ field.help_text }}</small>
+                                    {% endif %}
+
+                                    {% for error in field.errors %}
+                                        <div class="teacher-registration-error">
+                                            {{ error }}
+                                        </div>
+                                    {% endfor %}
+
+                                </div>
+
+                            {% endif %}
+
+                        {% endfor %}
+
+                    </div>
+
+                </div>
+
+                <hr class="teacher-registration-divider">
+
+                <div class="teacher-registration-section">
+
+                    <h3>Teacher Login Account</h3>
+
+                    <p>
+                        Choose the username, email and password you will use
+                        to log in to the school website.
+                    </p>
+
+                    <div class="teacher-registration-grid">
+
+                        <div class="teacher-registration-field">
+
+                            <label for="{{ form.username.id_for_label }}">
+                                {{ form.username.label }}<span class="required-star">*</span>
+                            </label>
+
+                            {{ form.username }}
+
+                            {% if form.username.help_text %}
+                                <small>{{ form.username.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in form.username.errors %}
+                                <div class="teacher-registration-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="teacher-registration-field">
+
+                            <label for="{{ form.email.id_for_label }}">
+                                {{ form.email.label }}<span class="required-star">*</span>
+                            </label>
+
+                            {{ form.email }}
+
+                            {% if form.email.help_text %}
+                                <small>{{ form.email.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in form.email.errors %}
+                                <div class="teacher-registration-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="teacher-registration-field">
+
+                            <label for="{{ form.password.id_for_label }}">
+                                {{ form.password.label }}<span class="required-star">*</span>
+                            </label>
+
+                            {{ form.password }}
+
+                            {% if form.password.help_text %}
+                                <small>{{ form.password.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in form.password.errors %}
+                                <div class="teacher-registration-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                        <div class="teacher-registration-field">
+
+                            <label for="{{ form.confirm_password.id_for_label }}">
+                                {{ form.confirm_password.label }}<span class="required-star">*</span>
+                            </label>
+
+                            {{ form.confirm_password }}
+
+                            {% if form.confirm_password.help_text %}
+                                <small>{{ form.confirm_password.help_text }}</small>
+                            {% endif %}
+
+                            {% for error in form.confirm_password.errors %}
+                                <div class="teacher-registration-error">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+                <div class="teacher-registration-actions">
+
+                    <button
+                        type="submit"
+                        class="teacher-registration-btn"
+                    >
+                        Create Teacher Account
+                    </button>
+
+                    <a
+                        href="{% url 'login' %}"
+                        class="teacher-registration-back"
+                    >
+                        Back to Login
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

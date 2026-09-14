@@ -1,0 +1,68 @@
+﻿{% extends 'base.html' %}
+
+{% block content %}
+<div class="page-header">
+    <div>
+        <h1>Announcements</h1>
+        <p>Important messages and updates from Addis Ray Secondary School.</p>
+    </div>
+
+    {% if request.user.role == "DIRECTOR" or request.user.role == "TEACHER" %}
+        <a href="{% url 'announcement_create' %}" class="btn btn-primary">
+            + New Announcement
+        </a>
+    {% endif %}
+</div>
+
+{% if announcements %}
+    <div class="announcements-list">
+        {% for announcement in announcements %}
+            <article class="announcement-card priority-{{ announcement.priority|lower }}">
+                <div class="announcement-top">
+                    <div>
+                        <h2>{{ announcement.title }}</h2>
+                        <div class="announcement-meta">
+                            <span>Posted by {{ announcement.posted_by.get_full_name|default:announcement.posted_by.username }}</span>
+                            <span>-</span>
+                            <span>{{ announcement.created_at|date:"M d, Y - h:i A" }}</span>
+                        </div>
+                    </div>
+
+                    <span class="priority-badge">
+                        {{ announcement.get_priority_display }}
+                    </span>
+                </div>
+
+                <div class="announcement-audience">
+                    <strong>To:</strong> {{ announcement.audience }}
+                </div>
+
+                <div class="announcement-message">
+                    {{ announcement.message|linebreaksbr }}
+                </div>
+
+                {% if announcement.posted_by_id == request.user.id %}
+                    <div class="announcement-actions">
+                        <a href="{% url 'announcement_edit' announcement.pk %}" class="edit-btn">
+                            Edit
+                        </a>
+
+                        <form method="post" action="{% url 'announcement_delete' announcement.pk %}" class="delete-form">
+                            {% csrf_token %}
+                            <button type="submit" class="delete-btn" onclick="return confirm('Delete this announcement?');">
+                                Delete
+                            </button>
+                        </form>
+                    </div>
+                {% endif %}
+            </article>
+        {% endfor %}
+    </div>
+{% else %}
+    <div class="empty-state">
+        <div class="empty-icon">--</div>
+        <h2>No announcements yet</h2>
+        <p>There are currently no school announcements.</p>
+    </div>
+{% endif %}
+{% endblock %}

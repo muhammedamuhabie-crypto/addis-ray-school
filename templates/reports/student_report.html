@@ -1,0 +1,191 @@
+{% extends 'base.html' %}
+
+{% block heading %}My Report{% endblock %}
+
+{% block content %}
+
+<style>
+.student-report-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.student-report-page .report-header {
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-left: 4px solid #b5122b;
+}
+
+.student-report-page .report-header h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.student-report-page .report-meta {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.student-report-page .report-stats {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+    margin-bottom: 22px;
+}
+
+.student-report-page .report-stat {
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 12px;
+    padding: 21px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-report-page .report-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+}
+
+.student-report-page .report-stat span {
+    display: block;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.student-report-page .report-stat strong {
+    display: block;
+    color: #b5122b;
+    font-size: 27px;
+    line-height: 1.1;
+}
+
+.student-report-page .report-results {
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.student-report-page .results-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.student-report-page .results-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.student-report-page .results-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-report-page .results-table th {
+    background: rgba(181, 18, 43, 0.06);
+    color: #374151;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    padding: 14px 20px;
+}
+
+.student-report-page .results-table td {
+    padding: 14px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    font-size: 14px;
+}
+
+.student-report-page .results-table tbody tr:hover {
+    background: rgba(181, 18, 43, 0.025);
+}
+
+@media (max-width: 650px) {
+    .student-report-page .report-stats {
+        grid-template-columns: 1fr;
+    }
+
+    .student-report-page .report-header {
+        padding: 20px;
+    }
+
+    .student-report-page .results-table th,
+    .student-report-page .results-table td {
+        padding: 12px 14px;
+    }
+}
+</style>
+
+<div class="student-report-page">
+
+    <div class="report-header">
+        <h2>{{ student }}</h2>
+        <p class="report-meta">
+            Grade {{ student.grade }}-{{ student.section }}
+            &nbsp; · &nbsp;
+            Academic Year {{ student.academic_year }}
+        </p>
+    </div>
+
+    <div class="report-stats">
+
+        <div class="report-stat">
+            <span>Total</span>
+            <strong>{{ total|floatformat:2 }}</strong>
+        </div>
+
+        <div class="report-stat">
+            <span>Average</span>
+            <strong>{{ average|floatformat:2 }}</strong>
+        </div>
+
+        <div class="report-stat">
+            <span>Result</span>
+            <strong>
+                {% if passed %}PASS{% else %}FAIL{% endif %}
+            </strong>
+        </div>
+
+    </div>
+
+    <div class="report-results">
+
+        <div class="results-header">
+            <h3>Subject Results</h3>
+        </div>
+
+        <table class="results-table">
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Mark</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.subject.name }}</td>
+                    <td>{{ r.mark }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

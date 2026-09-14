@@ -1,0 +1,23 @@
+{% extends 'base.html' %}{% load attendance_tags %}{% block heading %}Daily Attendance{% endblock %}{% block content %}<div class="panel"><form method="get" class="filter-grid"><div><label>Grade</label><select name="grade"><option>9</option><option>10</option><option>11</option><option>12</option></select></div><div><label>Section</label><select name="section">{% for x in 'ABCDEF' %}<option value="{{ x }}" {% if section == x %}selected{% endif %}>{{ x }}</option>{% endfor %}</select></div><div id="stream-field"><label>Stream</label><select name="stream"><option value="">Select Stream</option><option value="NATURAL" {% if stream == 'NATURAL' %}selected{% endif %}>Natural</option><option value="SOCIAL" {% if stream == 'SOCIAL' %}selected{% endif %}>Social</option></select></div><div><label>Date</label><input type="date" name="date" value="{{ day }}"></div><button class="btn btn-outline-brand">Load</button></form></div><div class="panel table-wrap"><form method="post">{% csrf_token %}<input type="hidden" name="grade" value="{{ grade }}"><input type="hidden" name="section" value="{{ section }}"><input type="hidden" name="stream" value="{{ stream }}"><input type="hidden" name="date" value="{{ day }}"><table><thead><tr><th>Student</th><th>Present</th><th>Absent</th><th>Late</th></tr></thead><tbody>{% for s in students %}<tr><td>{{ s.student_id }} — {{ s.first_name }} {{ s.father_name }}</td>{% for value in 'PAL' %}<td><input type="radio" name="status_{{ s.pk }}" value="{{ value }}" {% if existing|get_item:s.pk == value %}checked="checked"{% endif %}></td>{% endfor %}</tr>{% empty %}<tr><td colspan="4">No students in this class.</td></tr>{% endfor %}</tbody></table><button class="btn btn-brand mt-3">Save Attendance</button></form></div>{% endblock %}
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gradeSelect = document.querySelector('select[name="grade"]');
+    const streamField = document.getElementById('stream-field');
+    const streamSelect = document.querySelector('select[name="stream"]');
+
+    function updateStreamField() {
+        if (gradeSelect.value === '11' || gradeSelect.value === '12') {
+            streamField.style.display = '';
+        } else {
+            streamField.style.display = 'none';
+            streamSelect.value = '';
+        }
+    }
+
+    gradeSelect.addEventListener('change', updateStreamField);
+    updateStreamField();
+});
+</script>

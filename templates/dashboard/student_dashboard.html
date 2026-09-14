@@ -1,0 +1,80 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Student Dashboard - Addis Ray Secondary School{% endblock %}
+
+{% block heading %}Student Dashboard{% endblock %}
+
+{% block content %}
+
+<section class="student-welcome">
+    <div class="student-welcome-content">
+        <span class="student-welcome-label">STUDENT PORTAL</span>
+        <h2>Welcome back, {{ user.first_name }}.</h2>
+        <p>
+            Manage your academic information, attendance, ranking and student report
+            from one place.
+        </p>
+    </div>
+</section>
+
+
+<section class="student-section-header">
+    <div>
+        <h2>Quick Access</h2>
+        <p>Select a service to continue.</p>
+    </div>
+</section>
+
+
+<section class="student-dashboard-grid">
+
+    <a href="{% url 'my_results' %}" class="student-dashboard-card">
+        <div class="student-card-icon">AR</div>
+        <div class="student-card-content">
+            <h3>Academic Results</h3>
+            <p>
+                View your semester marks, final subject results and overall average.
+            </p>
+        </div>
+        <span class="student-card-arrow">View</span>
+    </a>
+
+
+    <a href="{% url 'ranking' %}" class="student-dashboard-card">
+        <div class="student-card-icon">RK</div>
+        <div class="student-card-content">
+            <h3>My Ranking</h3>
+            <p>
+                Check your academic position and compare your performance with your class.
+            </p>
+        </div>
+        <span class="student-card-arrow">View</span>
+    </a>
+
+
+    <a href="{% url 'my_attendance' %}" class="student-dashboard-card">
+        <div class="student-card-icon">AT</div>
+        <div class="student-card-content">
+            <h3>My Attendance</h3>
+            <p>
+                Review your attendance records and monitor your attendance status.
+            </p>
+        </div>
+        <span class="student-card-arrow">View</span>
+    </a>
+
+
+    <a href="{% url 'student_report' %}" class="student-dashboard-card">
+        <div class="student-card-icon">RP</div>
+        <div class="student-card-content">
+            <h3>My Report</h3>
+            <p>
+                View your complete academic and attendance report in one place.
+            </p>
+        </div>
+        <span class="student-card-arrow">View</span>
+    </a>
+
+</section>
+
+{% endblock %}

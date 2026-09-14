@@ -1,0 +1,369 @@
+﻿{% extends 'base.html' %}
+
+{% block heading %}Attendance Records<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gradeSelect = document.getElementById('grade');
+    const streamFilter = document.getElementById('stream-filter');
+    const streamSelect = document.getElementById('stream');
+
+    function updateStreamFilter() {
+        if (gradeSelect.value === '11' || gradeSelect.value === '12') {
+            streamFilter.style.display = '';
+        } else {
+            streamFilter.style.display = 'none';
+            streamSelect.value = '';
+        }
+    }
+
+    gradeSelect.addEventListener('change', updateStreamFilter);
+    updateStreamFilter();
+});
+</script>
+{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+    <div class="panel-header">
+        <div>
+            <h2>Attendance Overview</h2>
+            <p class="muted">Monitor student attendance by grade, stream and section.</p>
+        </div>
+    </div>
+</div>
+
+<div class="grid-cards">
+
+    <div class="stat">
+        <span>Total Records</span>
+        <strong>{{ total }}</strong>
+    </div>
+
+    <div class="stat">
+        <span>Present</span>
+        <strong>{{ present }}</strong>
+    </div>
+
+    <div class="stat">
+        <span>Late</span>
+        <strong>{{ late }}</strong>
+    </div>
+
+    <div class="stat">
+        <span>Absent</span>
+        <strong>{{ absent }}</strong>
+    </div>
+
+    <div class="stat">
+        <span>Attendance Rate</span>
+        <strong>{{ attendance_percentage|floatformat:1 }}%</strong>
+    </div>
+
+</div>
+
+<div class="panel">
+
+    <div class="panel-header">
+        <div>
+            <h3>Filter Attendance</h3>
+            <p class="muted">Choose the information you want to view.</p>
+        </div>
+    </div>
+
+    <form method="get" class="filter-grid">
+
+        <div>
+            <label for="date">Date</label>
+            <input type="date" id="date" name="date" value="{{ selected_date }}">
+        </div>
+
+        <div>
+            <label for="grade">Grade</label>
+
+            <select id="grade" name="grade">
+
+                <option value="">All Grades</option>
+
+                <option value="9" {% if selected_grade == '9' %}selected{% endif %}>
+                    9
+                </option>
+
+                <option value="10" {% if selected_grade == '10' %}selected{% endif %}>
+                    10
+                </option>
+
+                <option value="11" {% if selected_grade == '11' %}selected{% endif %}>
+                    11
+                </option>
+
+                <option value="12" {% if selected_grade == '12' %}selected{% endif %}>
+                    12
+                </option>
+
+            </select>
+        </div>
+
+        <div id="stream-filter">
+            <label for="stream">Stream</label>
+
+            <select id="stream" name="stream">
+                <option value="">All Streams</option>
+
+                <option value="NATURAL" {% if selected_stream == 'NATURAL' %}selected{% endif %}>
+                    Natural
+                </option>
+
+                <option value="SOCIAL" {% if selected_stream == 'SOCIAL' %}selected{% endif %}>
+                    Social
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="section">Section</label>
+
+            <select id="section" name="section">
+
+                <option value="">All Sections</option>
+
+                {% for x in 'ABCDEF' %}
+
+                    <option
+                        value="{{ x }}"
+                        {% if selected_section == x %}selected{% endif %}
+                    >
+                        {{ x }}
+                    </option>
+
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div>
+            <label for="status">Status</label>
+
+            <select id="status" name="status">
+
+                <option value="">All Statuses</option>
+
+                <option value="P" {% if selected_status == 'P' %}selected{% endif %}>
+                    Present
+                </option>
+
+                <option value="L" {% if selected_status == 'L' %}selected{% endif %}>
+                    Late
+                </option>
+
+                <option value="A" {% if selected_status == 'A' %}selected{% endif %}>
+                    Absent
+                </option>
+
+            </select>
+        </div>
+
+        <div>
+            <label>&nbsp;</label>
+            <button type="submit" class="btn btn-brand">
+                Filter
+            </button>
+        </div>
+
+        <div>
+            <label>&nbsp;</label>
+
+            <a
+                href="{% url 'attendance_records' %}"
+                class="btn btn-outline-brand"
+            >
+                Clear Filters
+            </a>
+        </div>
+
+    </form>
+
+</div>
+
+
+{% if grouped_records %}
+
+    {% regroup grouped_records by grade as grade_groups %}
+
+    {% for grade_group in grade_groups %}
+
+        <!-- GRADE -->
+
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--brand);
+        ">
+
+            <h2 style="margin: 0;">
+                Grade {{ grade_group.grouper }}
+            </h2>
+
+            <span style="font-weight: 600;">
+                Attendance Records
+            </span>
+
+        </div>
+
+
+        {% for group in grade_group.list %}
+
+            <!-- STREAM FOR GRADES 11 AND 12 -->
+
+            {% if group.grade == 11 or group.grade == 12 %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px 15px;
+                    margin-top: 15px;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid var(--brand);
+                ">
+
+                    <h3 style="margin: 0;">
+                        {{ group.stream|title }} Stream
+                    </h3>
+
+                </div>
+
+            {% endif %}
+
+
+            <!-- SECTION -->
+
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 9px 15px;
+                margin-top: 10px;
+                margin-bottom: 10px;
+                border-bottom: 2px solid var(--brand);
+            ">
+
+                <h3 style="margin: 0;">
+                    Section {{ group.section }}
+                </h3>
+
+                <span style="font-weight: 600;">
+                    {{ group.records|length }}
+                    record{{ group.records|length|pluralize }}
+                </span>
+
+            </div>
+
+
+            <!-- RECORDS -->
+
+            <div class="panel table-wrap">
+
+                <table>
+
+                    <thead>
+
+                        <tr>
+                            <th>Date</th>
+                            <th>Student</th>
+                            <th>Student ID</th>
+                            <th>Grade</th>
+                            <th>Section</th>
+                            <th>Status</th>
+                        </tr>
+
+                    </thead>
+
+                    <tbody>
+
+                        {% for r in group.records %}
+
+                            <tr>
+
+                                <td>{{ r.date }}</td>
+
+                                <td>
+                                    {{ r.student.first_name }}
+                                    {{ r.student.father_name }}
+                                </td>
+
+                                <td>
+                                    {{ r.student.student_id }}
+                                </td>
+
+                                <td>
+                                    {{ r.student.grade }}
+                                </td>
+
+                                <td>
+                                    {{ r.student.section }}
+                                </td>
+
+                                <td>
+                                    {{ r.get_status_display }}
+                                </td>
+
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        {% endfor %}
+
+    {% endfor %}
+
+{% else %}
+
+    <div class="panel">
+
+        <div class="panel-header">
+
+            <div>
+                <h3>Attendance History</h3>
+
+                <p class="muted">
+                    No attendance records match the selected filters.
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+{% endif %}
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const gradeSelect = document.getElementById('grade');
+    const streamFilter = document.getElementById('stream-filter');
+    const streamSelect = document.getElementById('stream');
+
+    function updateStreamFilter() {
+        if (gradeSelect.value === '11' || gradeSelect.value === '12') {
+            streamFilter.style.display = '';
+        } else {
+            streamFilter.style.display = 'none';
+            streamSelect.value = '';
+        }
+    }
+
+    gradeSelect.addEventListener('change', updateStreamFilter);
+    updateStreamFilter();
+});
+</script>
+{% endblock %}
+

@@ -1,0 +1,222 @@
+{% extends 'base.html' %}
+
+{% block heading %}My Attendance{% endblock %}
+
+{% block content %}
+
+<style>
+.student-attendance-page {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+.student-attendance-page .attendance-profile {
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.08);
+    border-radius: 14px;
+    padding: 24px 28px;
+    margin-bottom: 22px;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+    border-left: 4px solid #b5122b;
+}
+
+.student-attendance-page .attendance-profile h2 {
+    margin: 0 0 8px;
+    font-size: 24px;
+    font-weight: 700;
+}
+
+.student-attendance-page .student-meta {
+    margin: 0;
+    color: #6b7280;
+    font-size: 14px;
+}
+
+.student-attendance-page .attendance-stats {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 16px;
+    margin-bottom: 22px;
+}
+
+.student-attendance-page .attendance-stat {
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 12px;
+    padding: 20px 18px;
+    text-align: center;
+    box-shadow: 0 3px 12px rgba(0, 0, 0, 0.05);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.student-attendance-page .attendance-stat:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 18px rgba(0, 0, 0, 0.09);
+}
+
+.student-attendance-page .attendance-stat span {
+    display: block;
+    color: #6b7280;
+    font-size: 13px;
+    font-weight: 600;
+    margin-bottom: 9px;
+}
+
+.student-attendance-page .attendance-stat strong {
+    display: block;
+    color: #b5122b;
+    font-size: 27px;
+    line-height: 1.1;
+}
+
+.student-attendance-page .attendance-history {
+    background: var(--card-bg, #fff);
+    border: 1px solid rgba(0, 0, 0, 0.07);
+    border-radius: 14px;
+    overflow: hidden;
+    box-shadow: 0 4px 16px rgba(0, 0, 0, 0.06);
+}
+
+.student-attendance-page .history-header {
+    padding: 18px 22px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+}
+
+.student-attendance-page .history-header h3 {
+    margin: 0;
+    font-size: 18px;
+    font-weight: 700;
+}
+
+.student-attendance-page .history-table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.student-attendance-page .history-table th {
+    background: rgba(181, 18, 43, 0.06);
+    color: #374151;
+    font-size: 13px;
+    font-weight: 700;
+    text-align: left;
+    padding: 14px 20px;
+}
+
+.student-attendance-page .history-table td {
+    padding: 14px 20px;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    font-size: 14px;
+}
+
+.student-attendance-page .history-table tbody tr:hover {
+    background: rgba(181, 18, 43, 0.025);
+}
+
+.student-attendance-page .empty-attendance {
+    text-align: center;
+    color: #6b7280;
+    padding: 28px !important;
+}
+
+@media (max-width: 900px) {
+    .student-attendance-page .attendance-stats {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 600px) {
+    .student-attendance-page .attendance-stats {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .student-attendance-page .attendance-profile {
+        padding: 20px;
+    }
+
+    .student-attendance-page .history-table th,
+    .student-attendance-page .history-table td {
+        padding: 12px 14px;
+    }
+}
+</style>
+
+<div class="student-attendance-page">
+
+    <div class="attendance-profile">
+        <h2>{{ student.first_name }} {{ student.father_name }}</h2>
+        <p class="student-meta">
+            Student ID: {{ student.student_id }}
+            &nbsp; | &nbsp;
+            Grade {{ student.grade }}
+            &nbsp; | &nbsp;
+            Section {{ student.section }}
+        </p>
+    </div>
+
+    <div class="attendance-stats">
+
+        <div class="attendance-stat">
+            <span>Attendance Percentage</span>
+            <strong>{{ percentage|floatformat:1 }}%</strong>
+        </div>
+
+        <div class="attendance-stat">
+            <span>Total Days</span>
+            <strong>{{ total }}</strong>
+        </div>
+
+        <div class="attendance-stat">
+            <span>Present</span>
+            <strong>{{ present }}</strong>
+        </div>
+
+        <div class="attendance-stat">
+            <span>Late</span>
+            <strong>{{ late }}</strong>
+        </div>
+
+        <div class="attendance-stat">
+            <span>Absent</span>
+            <strong>{{ absent }}</strong>
+        </div>
+
+    </div>
+
+    <div class="attendance-history">
+
+        <div class="history-header">
+            <h3>Attendance History</h3>
+        </div>
+
+        <table class="history-table">
+            <thead>
+                <tr>
+                    <th>Date</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+
+            <tbody>
+                {% for r in records %}
+                <tr>
+                    <td>{{ r.date }}</td>
+                    <td>{{ r.get_status_display }}</td>
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="2" class="empty-attendance">
+                        No attendance records yet.
+                    </td>
+                </tr>
+
+                {% endfor %}
+            </tbody>
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

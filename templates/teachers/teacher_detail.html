@@ -1,0 +1,10 @@
+{% extends 'base.html' %}{% block heading %}Teacher Profile{% endblock %}{% block content %}<div class="panel profile">{% if teacher.photo %}<img class="avatar" src="{{ teacher.photo.url }}">{% else %}<div class="avatar placeholder">{{ teacher.first_name|first }}</div>{% endif %}<div><h2>{{ teacher.first_name }} {{ teacher.father_name }} {{ teacher.grandfather_name }}</h2><p>{{ teacher.teacher_id }} - {{ teacher.user.email }}</p><p>{{ teacher.subject }} - Grade {{ teacher.grade }}-{{ teacher.section }}</p><p>{{ teacher.get_qualification_display|default:teacher.qualification }} - Hired {{ teacher.hire_date }}</p><div class="quick">
+<a class="btn btn-outline-brand" href="{% url 'edit_teacher' teacher.pk %}">Edit</a>
+<a class="btn btn-brand" href="{% url 'teacher_permissions' teacher.pk %}">Manage Permissions</a>
+{% if user.role == 'DIRECTOR' %}
+<form method="post" action="{% url 'delete_teacher' teacher.pk %}" style="display:inline;" onsubmit="return confirm('Delete this teacher and their user account?');">
+{% csrf_token %}
+<button type="submit" class="btn btn-danger">Delete</button>
+</form>
+{% endif %}
+</div></div></div>{% endblock %}

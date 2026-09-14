@@ -1,0 +1,130 @@
+{% extends 'base.html' %}
+
+{% block heading %}Register Teacher{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+
+    <div class="mb-4">
+        <h2>Teacher Registration</h2>
+        <p>
+            Enter the teacher's complete school information
+            and create the teacher's login account.
+        </p>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <h3 class="mb-3">Teacher Information</h3>
+
+        <div class="form-grid">
+
+            {% for field in form %}
+
+                {% if field.name != 'username' and field.name != 'email' and field.name != 'password' and field.name != 'confirm_password' %}
+
+                    <div class="field">
+
+                        <label for="{{ field.id_for_label }}">
+                            {{ field.label }}{% if field.field.required %}<span class="required-star">*</span>{% endif %}
+                        </label>
+
+                        {{ field }}
+
+                        {% if field.help_text %}
+                            <small>{{ field.help_text }}</small>
+                        {% endif %}
+
+                        {% for error in field.errors %}
+                            <div class="text-danger">
+                                {{ error }}
+                            </div>
+                        {% endfor %}
+
+                    </div>
+
+                {% endif %}
+
+            {% endfor %}
+
+        </div>
+
+        <hr class="my-4">
+
+        <h3 class="mb-3">Teacher Login Account</h3>
+
+        <p>
+            Use the username, email and password chosen by the teacher.
+            These will be used to log in to the school website.
+        </p>
+
+        <div class="form-grid">
+
+            <div class="field">
+                <label for="{{ form.username.id_for_label }}">
+                    {{ form.username.label }}<span class="required-star">*</span>
+                </label>
+                {{ form.username }}
+                {% if form.username.help_text %}
+                    <small>{{ form.username.help_text }}</small>
+                {% endif %}
+                {% for error in form.username.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.email.id_for_label }}">
+                    {{ form.email.label }}<span class="required-star">*</span>
+                </label>
+                {{ form.email }}
+                {% if form.email.help_text %}
+                    <small>{{ form.email.help_text }}</small>
+                {% endif %}
+                {% for error in form.email.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.password.id_for_label }}">
+                    {{ form.password.label }}<span class="required-star">*</span>
+                </label>
+                {{ form.password }}
+                {% if form.password.help_text %}
+                    <small>{{ form.password.help_text }}</small>
+                {% endif %}
+                {% for error in form.password.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+            <div class="field">
+                <label for="{{ form.confirm_password.id_for_label }}">
+                    {{ form.confirm_password.label }}<span class="required-star">*</span>
+                </label>
+                {{ form.confirm_password }}
+                {% if form.confirm_password.help_text %}
+                    <small>{{ form.confirm_password.help_text }}</small>
+                {% endif %}
+                {% for error in form.confirm_password.errors %}
+                    <div class="text-danger">{{ error }}</div>
+                {% endfor %}
+            </div>
+
+        </div>
+
+        <button type="submit" class="btn btn-brand mt-4">
+            Create Teacher Account
+        </button>
+
+    </form>
+
+</div>
+
+{% endblock %}

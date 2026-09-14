@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block heading %}Edit Class{% endblock %}
+{% block content %}
+<div class="panel">
+    <form method="post" class="filter-grid">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-brand">Save Changes</button>
+        <a href="{% url 'classes' %}" class="btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

@@ -1,0 +1,257 @@
+{% extends 'base.html' %}
+
+{% block heading %}Enter Grade{% endblock %}
+
+{% block content %}
+
+<div class="panel">
+
+    <div class="mb-4">
+        <h2>Enter Student Grade</h2>
+
+        <p>
+            Select the student's class first, then select the student
+            and enter the mark for the selected semester.
+        </p>
+    </div>
+
+
+    <form method="post">
+
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+
+        <h3 class="mb-3">Student Class</h3>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label for="{{ form.grade.id_for_label }}">
+                    Grade
+                </label>
+
+                {{ form.grade }}
+
+                {% for error in form.grade.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="{{ form.section.id_for_label }}">
+                    Section
+                </label>
+
+                {{ form.section }}
+
+                {% for error in form.section.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="field" id="stream-container">
+
+                <label for="{{ form.stream.id_for_label }}">
+                    Stream
+                </label>
+
+                {{ form.stream }}
+
+                <small>
+                    Stream is required only for Grade 11 and Grade 12.
+                </small>
+
+                {% for error in form.stream.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <hr class="my-4">
+
+
+        <h3 class="mb-3">Student and Grade</h3>
+
+        <div class="form-grid">
+
+            <div class="field">
+
+                <label for="{{ form.student.id_for_label }}">
+                    Student
+                </label>
+
+                {{ form.student }}
+
+                <small>
+                    Only students belonging to the selected
+                    Grade and Section will appear.
+                </small>
+
+                {% for error in form.student.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="{{ form.subject.id_for_label }}">
+                    Subject
+                </label>
+
+                {{ form.subject }}
+
+                {% for error in form.subject.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="{{ form.academic_year.id_for_label }}">
+                    Academic Year
+                </label>
+
+                {{ form.academic_year }}
+
+                {% for error in form.academic_year.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="{{ form.semester.id_for_label }}">
+                    Semester
+                </label>
+
+                {{ form.semester }}
+
+                {% for error in form.semester.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+
+            <div class="field">
+
+                <label for="{{ form.mark.id_for_label }}">
+                    Mark
+                </label>
+
+                {{ form.mark }}
+
+                <small>
+                    Enter a mark from 0 to 100.
+                </small>
+
+                {% for error in form.mark.errors %}
+                    <div class="text-danger">
+                        {{ error }}
+                    </div>
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <button
+            type="submit"
+            class="btn btn-brand mt-4">
+
+            Save Grade
+
+        </button>
+
+    </form>
+
+</div>
+
+
+<script>
+
+document.addEventListener('DOMContentLoaded', function () {
+
+    const gradeField =
+        document.getElementById('id_grade');
+
+    const streamContainer =
+        document.getElementById('stream-container');
+
+    const streamField =
+        document.getElementById('id_stream');
+
+
+    function updateStream() {
+
+        if (!gradeField || !streamContainer || !streamField) {
+            return;
+        }
+
+        if (
+            gradeField.value === '11' ||
+            gradeField.value === '12'
+        ) {
+
+            streamContainer.style.display = '';
+
+            streamField.required = true;
+
+        } else {
+
+            streamContainer.style.display = 'none';
+
+            streamField.required = false;
+
+            streamField.value = '';
+        }
+    }
+
+
+    if (gradeField) {
+
+        gradeField.addEventListener(
+            'change',
+            updateStream
+        );
+
+        updateStream();
+    }
+
+});
+
+</script>
+
+{% endblock %}

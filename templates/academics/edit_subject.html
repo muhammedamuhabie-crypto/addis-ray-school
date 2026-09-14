@@ -1,0 +1,12 @@
+{% extends 'base.html' %}
+{% block heading %}Edit Subject{% endblock %}
+{% block content %}
+<div class="panel">
+    <form method="post" class="inline-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="btn btn-brand">Save Changes</button>
+        <a href="{% url 'subjects' %}" class="btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

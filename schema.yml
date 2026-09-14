@@ -1,0 +1,1917 @@
+openapi: 3.0.3
+info:
+  title: Addis Ray Secondary School API
+  version: 1.0.0
+  description: API for Addis Ray Secondary School management system.
+paths:
+  /api/academics/average/{student_id}/:
+    get:
+      operationId: academics_average_retrieve
+      parameters:
+      - in: path
+        name: student_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentAverage'
+          description: ''
+  /api/academics/classes/:
+    get:
+      operationId: academics_classes_list
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ClassRoom'
+          description: ''
+    post:
+      operationId: academics_classes_create
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassRoom'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassRoom'
+          description: ''
+  /api/academics/classes/{id}/:
+    get:
+      operationId: academics_classes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this class room.
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassRoom'
+          description: ''
+    put:
+      operationId: academics_classes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this class room.
+        required: true
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ClassRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ClassRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ClassRoom'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassRoom'
+          description: ''
+    patch:
+      operationId: academics_classes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this class room.
+        required: true
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedClassRoom'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedClassRoom'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedClassRoom'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ClassRoom'
+          description: ''
+    delete:
+      operationId: academics_classes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this class room.
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/academics/grades/:
+    get:
+      operationId: academics_grades_list
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/GradeRecord'
+          description: ''
+    post:
+      operationId: academics_grades_create
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GradeRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GradeRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GradeRecord'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeRecord'
+          description: ''
+  /api/academics/grades/{id}/:
+    get:
+      operationId: academics_grades_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this grade record.
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeRecord'
+          description: ''
+    put:
+      operationId: academics_grades_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this grade record.
+        required: true
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/GradeRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/GradeRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/GradeRecord'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeRecord'
+          description: ''
+    patch:
+      operationId: academics_grades_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this grade record.
+        required: true
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedGradeRecord'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedGradeRecord'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedGradeRecord'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GradeRecord'
+          description: ''
+    delete:
+      operationId: academics_grades_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this grade record.
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/academics/ranking/:
+    get:
+      operationId: academics_ranking_retrieve
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Ranking'
+          description: ''
+  /api/academics/results/{student_id}/:
+    get:
+      operationId: academics_results_retrieve
+      parameters:
+      - in: path
+        name: student_id
+        schema:
+          type: integer
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/StudentResults'
+          description: ''
+  /api/academics/subjects/:
+    get:
+      operationId: academics_subjects_list
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Subject'
+          description: ''
+    post:
+      operationId: academics_subjects_create
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subject'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subject'
+          description: ''
+  /api/academics/subjects/{id}/:
+    get:
+      operationId: academics_subjects_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subject.
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subject'
+          description: ''
+    put:
+      operationId: academics_subjects_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subject.
+        required: true
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Subject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Subject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Subject'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subject'
+          description: ''
+    patch:
+      operationId: academics_subjects_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subject.
+        required: true
+      tags:
+      - academics
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSubject'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSubject'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSubject'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Subject'
+          description: ''
+    delete:
+      operationId: academics_subjects_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this subject.
+        required: true
+      tags:
+      - academics
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/attendance/:
+    get:
+      operationId: attendance_list
+      tags:
+      - attendance
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Attendance'
+          description: ''
+    post:
+      operationId: attendance_create
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attendance'
+          description: ''
+  /api/attendance/{id}/:
+    get:
+      operationId: attendance_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this attendance.
+        required: true
+      tags:
+      - attendance
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attendance'
+          description: ''
+    put:
+      operationId: attendance_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this attendance.
+        required: true
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Attendance'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attendance'
+          description: ''
+    patch:
+      operationId: attendance_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this attendance.
+        required: true
+      tags:
+      - attendance
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAttendance'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAttendance'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAttendance'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Attendance'
+          description: ''
+    delete:
+      operationId: attendance_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this attendance.
+        required: true
+      tags:
+      - attendance
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/auth/me/:
+    get:
+      operationId: auth_me_retrieve
+      tags:
+      - auth
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CurrentUser'
+          description: ''
+  /api/auth/token/:
+    post:
+      operationId: auth_token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/auth/token/refresh/:
+    post:
+      operationId: auth_token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - auth
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+  /api/authorization/director/:
+    get:
+      operationId: authorization_director_retrieve
+      tags:
+      - authorization
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationResponse'
+          description: ''
+  /api/authorization/student/:
+    get:
+      operationId: authorization_student_retrieve
+      tags:
+      - authorization
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationResponse'
+          description: ''
+  /api/authorization/teacher/:
+    get:
+      operationId: authorization_teacher_retrieve
+      tags:
+      - authorization
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AuthorizationResponse'
+          description: ''
+  /api/services/academics/:
+    get:
+      operationId: services_academics_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/services/attendance/:
+    get:
+      operationId: services_attendance_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/services/promotion/:
+    get:
+      operationId: services_promotion_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/services/reports/:
+    get:
+      operationId: services_reports_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/services/settings/:
+    get:
+      operationId: services_settings_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/services/students/:
+    get:
+      operationId: services_students_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/services/teachers/:
+    get:
+      operationId: services_teachers_retrieve
+      tags:
+      - services
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ServiceAuthorization'
+          description: ''
+  /api/students/:
+    get:
+      operationId: students_list
+      tags:
+      - students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Student'
+          description: ''
+    post:
+      operationId: students_create
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+  /api/students/{id}/:
+    get:
+      operationId: students_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this student.
+        required: true
+      tags:
+      - students
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+    put:
+      operationId: students_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this student.
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Student'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Student'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Student'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+    patch:
+      operationId: students_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this student.
+        required: true
+      tags:
+      - students
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedStudent'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedStudent'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedStudent'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Student'
+          description: ''
+    delete:
+      operationId: students_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this student.
+        required: true
+      tags:
+      - students
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/teachers/:
+    get:
+      operationId: teachers_list
+      tags:
+      - teachers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Teacher'
+          description: ''
+    post:
+      operationId: teachers_create
+      tags:
+      - teachers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TeacherCreate'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TeacherCreate'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TeacherCreate'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TeacherCreate'
+          description: ''
+  /api/teachers/{id}/:
+    get:
+      operationId: teachers_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this teacher profile.
+        required: true
+      tags:
+      - teachers
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+          description: ''
+    put:
+      operationId: teachers_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this teacher profile.
+        required: true
+      tags:
+      - teachers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Teacher'
+        required: true
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+          description: ''
+    patch:
+      operationId: teachers_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this teacher profile.
+        required: true
+      tags:
+      - teachers
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedTeacher'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedTeacher'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedTeacher'
+      security:
+      - jwtAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Teacher'
+          description: ''
+    delete:
+      operationId: teachers_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: A unique integer value identifying this teacher profile.
+        required: true
+      tags:
+      - teachers
+      security:
+      - jwtAuth: []
+      responses:
+        '204':
+          description: No response body
+components:
+  schemas:
+    Attendance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student:
+          type: integer
+        student_name:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        status_display:
+          type: string
+          readOnly: true
+      required:
+      - date
+      - id
+      - status
+      - status_display
+      - student
+      - student_name
+    AuthorizationResponse:
+      type: object
+      properties:
+        authorized:
+          type: boolean
+        role:
+          type: string
+        message:
+          type: string
+      required:
+      - authorized
+      - message
+      - role
+    BlankEnum:
+      enum:
+      - ''
+    ClassRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        grade:
+          allOf:
+          - $ref: '#/components/schemas/GradeEnum'
+          minimum: 0
+          maximum: 32767
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        academic_year:
+          type: string
+          maxLength: 20
+      required:
+      - academic_year
+      - grade
+      - id
+      - section
+    CurrentUser:
+      type: object
+      properties:
+        id:
+          type: integer
+        username:
+          type: string
+        email:
+          type: string
+          format: email
+        role:
+          type: string
+      required:
+      - email
+      - id
+      - role
+      - username
+    GenderEnum:
+      enum:
+      - M
+      - F
+      type: string
+      description: |-
+        * `M` - Male
+        * `F` - Female
+    GradeEnum:
+      enum:
+      - 9
+      - 10
+      - 11
+      - 12
+      type: integer
+      description: |-
+        * `9` - Grade 9
+        * `10` - Grade 10
+        * `11` - Grade 11
+        * `12` - Grade 12
+    GradeRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student:
+          type: integer
+        student_name:
+          type: string
+          readOnly: true
+        subject:
+          type: integer
+        subject_name:
+          type: string
+          readOnly: true
+        academic_year:
+          type: string
+          maxLength: 20
+        semester:
+          allOf:
+          - $ref: '#/components/schemas/SemesterEnum'
+          default: SEMESTER_1
+        mark:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+      required:
+      - academic_year
+      - id
+      - mark
+      - student
+      - student_name
+      - subject
+      - subject_name
+    NullEnum:
+      enum:
+      - null
+    PatchedAttendance:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student:
+          type: integer
+        student_name:
+          type: string
+          readOnly: true
+        date:
+          type: string
+          format: date
+        status:
+          $ref: '#/components/schemas/StatusEnum'
+        status_display:
+          type: string
+          readOnly: true
+    PatchedClassRoom:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        grade:
+          allOf:
+          - $ref: '#/components/schemas/GradeEnum'
+          minimum: 0
+          maximum: 32767
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        academic_year:
+          type: string
+          maxLength: 20
+    PatchedGradeRecord:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student:
+          type: integer
+        student_name:
+          type: string
+          readOnly: true
+        subject:
+          type: integer
+        subject_name:
+          type: string
+          readOnly: true
+        academic_year:
+          type: string
+          maxLength: 20
+        semester:
+          allOf:
+          - $ref: '#/components/schemas/SemesterEnum'
+          default: SEMESTER_1
+        mark:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,3}(?:\.\d{0,2})?$
+    PatchedStudent:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student_id:
+          type: string
+          maxLength: 30
+        first_name:
+          type: string
+          maxLength: 80
+        father_name:
+          type: string
+          maxLength: 80
+        grandfather_name:
+          type: string
+          maxLength: 80
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        date_of_birth:
+          type: string
+          format: date
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        guardian_name:
+          type: string
+          maxLength: 150
+        guardian_phone:
+          type: string
+          maxLength: 30
+        grade:
+          allOf:
+          - $ref: '#/components/schemas/GradeEnum'
+          minimum: 0
+          maximum: 32767
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        stream:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/StreamEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        academic_year:
+          type: string
+          maxLength: 20
+        photo:
+          type: string
+          format: uri
+          nullable: true
+    PatchedSubject:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        code:
+          type: string
+          maxLength: 20
+    PatchedTeacher:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+        teacher_id:
+          type: string
+          maxLength: 30
+        first_name:
+          type: string
+          maxLength: 80
+        father_name:
+          type: string
+          maxLength: 80
+        grandfather_name:
+          type: string
+          maxLength: 80
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        date_of_birth:
+          type: string
+          format: date
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        qualification:
+          type: string
+          maxLength: 150
+        subject:
+          type: string
+          maxLength: 120
+        grade:
+          allOf:
+          - $ref: '#/components/schemas/GradeEnum'
+          minimum: 0
+          maximum: 32767
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        hire_date:
+          type: string
+          format: date
+        photo:
+          type: string
+          format: uri
+          nullable: true
+        can_register_students:
+          type: boolean
+        can_take_attendance:
+          type: boolean
+        can_enter_grades:
+          type: boolean
+        can_view_reports:
+          type: boolean
+    Ranking:
+      type: object
+      properties:
+        count:
+          type: integer
+        rankings:
+          type: array
+          items:
+            $ref: '#/components/schemas/RankingItem'
+      required:
+      - count
+      - rankings
+    RankingItem:
+      type: object
+      properties:
+        student_id:
+          type: integer
+        student_number:
+          type: string
+        student_name:
+          type: string
+        grade:
+          type: integer
+        section:
+          type: string
+        stream:
+          type: string
+        average:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+        rank:
+          type: integer
+      required:
+      - average
+      - grade
+      - rank
+      - section
+      - stream
+      - student_id
+      - student_name
+      - student_number
+    SectionEnum:
+      enum:
+      - A
+      - B
+      - C
+      - D
+      - E
+      - F
+      type: string
+      description: |-
+        * `A` - A
+        * `B` - B
+        * `C` - C
+        * `D` - D
+        * `E` - E
+        * `F` - F
+    SemesterEnum:
+      enum:
+      - SEMESTER_1
+      - SEMESTER_2
+      type: string
+      description: |-
+        * `SEMESTER_1` - Semester 1
+        * `SEMESTER_2` - Semester 2
+    ServiceAuthorization:
+      type: object
+      properties:
+        authorized:
+          type: boolean
+        role:
+          type: string
+        service:
+          type: string
+        message:
+          type: string
+      required:
+      - authorized
+      - message
+      - role
+      - service
+    StatusEnum:
+      enum:
+      - P
+      - A
+      - L
+      type: string
+      description: |-
+        * `P` - Present
+        * `A` - Absent
+        * `L` - Late
+    StreamEnum:
+      enum:
+      - NATURAL
+      - SOCIAL
+      type: string
+      description: |-
+        * `NATURAL` - Natural
+        * `SOCIAL` - Social
+    Student:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        student_id:
+          type: string
+          maxLength: 30
+        first_name:
+          type: string
+          maxLength: 80
+        father_name:
+          type: string
+          maxLength: 80
+        grandfather_name:
+          type: string
+          maxLength: 80
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        date_of_birth:
+          type: string
+          format: date
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        guardian_name:
+          type: string
+          maxLength: 150
+        guardian_phone:
+          type: string
+          maxLength: 30
+        grade:
+          allOf:
+          - $ref: '#/components/schemas/GradeEnum'
+          minimum: 0
+          maximum: 32767
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        stream:
+          nullable: true
+          oneOf:
+          - $ref: '#/components/schemas/StreamEnum'
+          - $ref: '#/components/schemas/BlankEnum'
+          - $ref: '#/components/schemas/NullEnum'
+        academic_year:
+          type: string
+          maxLength: 20
+        photo:
+          type: string
+          format: uri
+          nullable: true
+      required:
+      - academic_year
+      - address
+      - date_of_birth
+      - father_name
+      - first_name
+      - gender
+      - grade
+      - grandfather_name
+      - guardian_name
+      - guardian_phone
+      - id
+      - phone
+      - section
+      - student_id
+    StudentAverage:
+      type: object
+      properties:
+        student_id:
+          type: integer
+        student_number:
+          type: string
+        student_name:
+          type: string
+        average:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+      required:
+      - average
+      - student_id
+      - student_name
+      - student_number
+    StudentResultItem:
+      type: object
+      properties:
+        subject_id:
+          type: integer
+        subject_name:
+          type: string
+        mark:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        final_mark:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+      required:
+      - final_mark
+      - mark
+      - subject_id
+      - subject_name
+    StudentResults:
+      type: object
+      properties:
+        student_id:
+          type: integer
+        student_number:
+          type: string
+        student_name:
+          type: string
+        grade:
+          type: integer
+        section:
+          type: string
+        stream:
+          type: string
+        academic_year:
+          type: string
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/StudentResultItem'
+        total:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,8}(?:\.\d{0,2})?$
+          nullable: true
+        average:
+          type: string
+          format: decimal
+          pattern: ^-?\d{0,4}(?:\.\d{0,2})?$
+          nullable: true
+        passed:
+          type: boolean
+      required:
+      - academic_year
+      - average
+      - grade
+      - passed
+      - results
+      - section
+      - stream
+      - student_id
+      - student_name
+      - student_number
+      - total
+    Subject:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        name:
+          type: string
+          maxLength: 100
+        code:
+          type: string
+          maxLength: 20
+      required:
+      - code
+      - id
+      - name
+    Teacher:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        username:
+          type: string
+          readOnly: true
+        email:
+          type: string
+          format: email
+          readOnly: true
+        role:
+          type: string
+          readOnly: true
+        teacher_id:
+          type: string
+          maxLength: 30
+        first_name:
+          type: string
+          maxLength: 80
+        father_name:
+          type: string
+          maxLength: 80
+        grandfather_name:
+          type: string
+          maxLength: 80
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        date_of_birth:
+          type: string
+          format: date
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        qualification:
+          type: string
+          maxLength: 150
+        subject:
+          type: string
+          maxLength: 120
+        grade:
+          allOf:
+          - $ref: '#/components/schemas/GradeEnum'
+          minimum: 0
+          maximum: 32767
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        hire_date:
+          type: string
+          format: date
+        photo:
+          type: string
+          format: uri
+          nullable: true
+        can_register_students:
+          type: boolean
+        can_take_attendance:
+          type: boolean
+        can_enter_grades:
+          type: boolean
+        can_view_reports:
+          type: boolean
+      required:
+      - address
+      - date_of_birth
+      - email
+      - father_name
+      - first_name
+      - gender
+      - grade
+      - grandfather_name
+      - hire_date
+      - id
+      - phone
+      - qualification
+      - role
+      - section
+      - subject
+      - teacher_id
+      - username
+    TeacherCreate:
+      type: object
+      properties:
+        username:
+          type: string
+          maxLength: 150
+        email:
+          type: string
+          format: email
+        password:
+          type: string
+          writeOnly: true
+          minLength: 8
+        teacher_id:
+          type: string
+          maxLength: 30
+        first_name:
+          type: string
+          maxLength: 80
+        father_name:
+          type: string
+          maxLength: 80
+        grandfather_name:
+          type: string
+          maxLength: 80
+        gender:
+          $ref: '#/components/schemas/GenderEnum'
+        date_of_birth:
+          type: string
+          format: date
+        phone:
+          type: string
+          maxLength: 30
+        address:
+          type: string
+        qualification:
+          type: string
+          maxLength: 150
+        subject:
+          type: string
+          maxLength: 120
+        grade:
+          $ref: '#/components/schemas/GradeEnum'
+        section:
+          $ref: '#/components/schemas/SectionEnum'
+        hire_date:
+          type: string
+          format: date
+        can_register_students:
+          type: boolean
+          default: false
+        can_take_attendance:
+          type: boolean
+          default: false
+        can_enter_grades:
+          type: boolean
+          default: false
+        can_view_reports:
+          type: boolean
+          default: false
+      required:
+      - address
+      - date_of_birth
+      - email
+      - father_name
+      - first_name
+      - gender
+      - grade
+      - grandfather_name
+      - hire_date
+      - password
+      - phone
+      - qualification
+      - section
+      - subject
+      - teacher_id
+      - username
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          writeOnly: true
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

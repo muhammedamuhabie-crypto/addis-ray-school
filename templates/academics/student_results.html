@@ -1,0 +1,198 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}My Academic Results - Addis Ray Secondary School{% endblock %}
+
+{% block heading %}Academic Results{% endblock %}
+
+{% block content %}
+
+<div class="student-page-header">
+    <div>
+        <span class="student-page-label">ACADEMIC PERFORMANCE</span>
+        <h2>My Academic Results</h2>
+        <p>Review your semester marks, final results, average and academic rank.</p>
+    </div>
+</div>
+
+
+<div class="student-result-summary">
+
+    <div class="student-result-stat">
+        <span>Final Total</span>
+        <strong>
+            {% if total is not None %}
+                {{ total|floatformat:2 }}
+            {% else %}
+                -
+            {% endif %}
+        </strong>
+    </div>
+
+    <div class="student-result-stat">
+        <span>Final Average</span>
+        <strong>
+            {% if average is not None %}
+                {{ average|floatformat:2 }}
+            {% else %}
+                -
+            {% endif %}
+        </strong>
+    </div>
+
+    <div class="student-result-stat">
+        <span>Final Result</span>
+        <strong>
+            {% if average is None %}
+                INCOMPLETE
+            {% elif passed %}
+                PASS
+            {% else %}
+                FAIL
+            {% endif %}
+        </strong>
+    </div>
+
+    <div class="student-result-stat">
+        <span>Academic Rank</span>
+        <strong>
+            {% if rank %}
+                {{ rank }}
+            {% else %}
+                -
+            {% endif %}
+        </strong>
+    </div>
+
+</div>
+
+
+<div class="student-profile-card">
+
+    <div class="student-profile-main">
+
+        <div class="student-profile-avatar">
+            {{ student.first_name|first|upper }}
+        </div>
+
+        <div>
+            <span class="student-profile-label">STUDENT</span>
+
+            <h2>
+                {{ student.first_name }} {{ student.father_name }}
+            </h2>
+
+            <p>
+                Student ID: <strong>{{ student.student_id }}</strong>
+            </p>
+        </div>
+
+    </div>
+
+
+    <div class="student-profile-details">
+
+        <div>
+            <span>Class</span>
+            <strong>
+                Grade {{ student.grade }} - Section {{ student.section }}
+            </strong>
+        </div>
+
+        {% if student.grade == 11 or student.grade == 12 %}
+        <div>
+            <span>Stream</span>
+            <strong>{{ student.get_stream_display }}</strong>
+        </div>
+        {% endif %}
+
+        <div>
+            <span>Academic Year</span>
+            <strong>{{ student.academic_year }}</strong>
+        </div>
+
+    </div>
+
+</div>
+
+
+<div class="student-results-panel">
+
+    <div class="student-panel-header">
+        <div>
+            <span class="student-panel-label">RESULT DETAILS</span>
+            <h3>Semester and Final Results</h3>
+        </div>
+    </div>
+
+
+    <div class="student-results-table-wrap">
+
+        <table class="student-results-table">
+
+            <thead>
+                <tr>
+                    <th>Subject</th>
+                    <th>Semester 1</th>
+                    <th>Semester 2</th>
+                    <th>Final Mark</th>
+                </tr>
+            </thead>
+
+            <tbody>
+
+                {% for r in final_results %}
+
+                <tr>
+
+                    <td>
+                        <strong>{{ r.subject.name }}</strong>
+                    </td>
+
+                    <td>
+                        {% if r.semester_1 is not None %}
+                            {{ r.semester_1|floatformat:2 }}
+                        {% else %}
+                            <span class="student-result-missing">-</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if r.semester_2 is not None %}
+                            {{ r.semester_2|floatformat:2 }}
+                        {% else %}
+                            <span class="student-result-missing">-</span>
+                        {% endif %}
+                    </td>
+
+                    <td>
+                        {% if r.final_mark is not None %}
+                            <strong class="student-final-mark">
+                                {{ r.final_mark|floatformat:2 }}
+                            </strong>
+                        {% else %}
+                            <span class="student-result-missing">-</span>
+                        {% endif %}
+                    </td>
+
+                </tr>
+
+                {% empty %}
+
+                <tr>
+                    <td colspan="4" class="student-no-results">
+                        <strong>No results have been entered yet.</strong>
+                        <span>Your academic results will appear here once they are available.</span>
+                    </td>
+                </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}

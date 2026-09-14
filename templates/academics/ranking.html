@@ -1,0 +1,423 @@
+﻿{% extends 'base.html' %}
+
+{% block heading %}Student Ranking{% endblock %}
+
+{% block content %}
+
+<!-- ============================= -->
+<!-- SECTION-BASED RANKING -->
+<!-- ============================= -->
+
+<div class="panel">
+
+    <div style="
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 12px 15px;
+        margin-bottom: 15px;
+        border-bottom: 2px solid var(--brand);
+    ">
+        <h2 style="margin: 0;">
+            Section Ranking
+        </h2>
+
+        <span style="font-weight: 600;">
+            Academic Results
+        </span>
+    </div>
+
+    {% regroup section_rankings by grade as grade_groups %}
+
+    {% for grade_group in grade_groups %}
+
+    <div style="margin-bottom: 25px;">
+
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--brand);
+        ">
+            <h2 style="margin: 0;">
+                Grade {{ grade_group.grouper }}
+            </h2>
+
+            <span style="font-weight: 600;">
+                Section Ranking
+            </span>
+        </div>
+
+        {% regroup grade_group.list by section as section_groups %}
+
+        {% for section_group in section_groups %}
+
+        <div style="
+            margin: 0 15px 20px 15px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+        ">
+
+            <div style="
+                display: flex;
+                justify-content: space-between;
+                align-items: center;
+                padding: 10px 15px;
+                background: #f5f5f5;
+                border-bottom: 1px solid #ddd;
+            ">
+                <h3 style="margin: 0;">
+                    Section {{ section_group.grouper }}
+                </h3>
+
+                <span style="font-size: 13px; font-weight: 600;">
+                    Ranking
+                </span>
+            </div>
+
+            {% if grade_group.grouper == 11 or grade_group.grouper == 12 %}
+
+                {% regroup section_group.list by stream as stream_groups %}
+
+                {% for stream_group in stream_groups %}
+
+                <div style="
+                    margin: 15px;
+                    border: 1px solid #e0e0e0;
+                    border-radius: 6px;
+                    overflow: hidden;
+                ">
+
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 9px 14px;
+                        background: #fafafa;
+                        border-bottom: 1px solid #e0e0e0;
+                    ">
+                        <h4 style="margin: 0;">
+                            {{ stream_group.grouper|title }}
+                        </h4>
+
+                        <span style="
+                            font-size: 13px;
+                            font-weight: normal;
+                        ">
+                            {{ stream_group.list.0.students|length }}
+                            Student{{ stream_group.list.0.students|length|pluralize }}
+                        </span>
+                    </div>
+
+                    <div class="table-wrap">
+
+                        <table>
+
+                            <thead>
+                                <tr>
+                                    <th>Rank</th>
+                                    <th>Student</th>
+                                    <th>Average</th>
+                                </tr>
+                            </thead>
+
+                            <tbody>
+
+                                {% for group in stream_group.list %}
+
+                                    {% for item in group.students %}
+
+                                    <tr>
+
+                                        <td>
+                                            <b>{{ item.rank }}</b>
+                                        </td>
+
+                                        <td>
+                                            {{ item.student.first_name }}
+                                            {{ item.student.father_name }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.average|floatformat:2 }}
+                                        </td>
+
+                                    </tr>
+
+                                    {% endfor %}
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+                {% endfor %}
+
+            {% else %}
+
+                {% for group in section_group.list %}
+
+                <div class="table-wrap" style="margin: 0 15px 15px 15px;">
+
+                    <table>
+
+                        <thead>
+                            <tr>
+                                <th>Rank</th>
+                                <th>Student</th>
+                                <th>Average</th>
+                            </tr>
+                        </thead>
+
+                        <tbody>
+
+                            {% for item in group.students %}
+
+                            <tr>
+
+                                <td>
+                                    <b>{{ item.rank }}</b>
+                                </td>
+
+                                <td>
+                                    {{ item.student.first_name }}
+                                    {{ item.student.father_name }}
+                                </td>
+
+                                <td>
+                                    {{ item.average|floatformat:2 }}
+                                </td>
+
+                            </tr>
+
+                            {% endfor %}
+
+                        </tbody>
+
+                    </table>
+
+                </div>
+
+                {% endfor %}
+
+            {% endif %}
+
+        </div>
+
+        {% endfor %}
+
+    </div>
+
+    {% empty %}
+
+    <p>No section ranking data yet.</p>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- ============================= -->
+<!-- GRADE-BASED TOP 3 -->
+<!-- ============================= -->
+
+<div class="panel" style="margin-top: 30px;">
+
+    <div style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--brand);
+">
+    <h2 style="margin: 0;">
+        Grade Ranking - Top 3</h2>
+
+    <span style="font-weight: 600;">
+        Grades 9–12
+    </span>
+</div>
+
+    {% for group in grade_rankings %}
+
+        <div style="margin-top: 30px;">
+
+            <h3>
+                Grade {{ group.grade }} — Top 3
+            </h3>
+
+            <div class="table-wrap">
+
+                <table>
+
+                    <thead>
+                        <tr>
+                            <th>Student</th>
+                            <th>Section</th>
+                            <th>Stream</th>
+                            <th>Average</th>
+                            <th>Rank</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+
+                        {% for item in group.students %}
+
+                            <tr>
+
+                                <td>
+                                    {{ item.student.first_name }}
+                                    {{ item.student.father_name }}
+                                </td>
+
+                                <td>
+                                    {{ item.student.section }}
+                                </td>
+
+                                <td>
+                                    {% if item.student.stream %}
+                                        {{ item.student.stream|title }}
+                                    {% else %}
+                                        —
+                                    {% endif %}
+                                </td>
+
+                                <td>
+                                    {{ item.average|floatformat:2 }}
+                                </td>
+
+                                <td>
+                                    <b>{{ item.rank }}</b>
+                                </td>
+
+                            </tr>
+
+                        {% empty %}
+
+                            <tr>
+                                <td colspan="5">
+                                    No completed results for this grade.
+                                </td>
+                            </tr>
+
+                        {% endfor %}
+
+                    </tbody>
+
+                </table>
+
+            </div>
+
+        </div>
+
+    {% endfor %}
+
+</div>
+
+
+<!-- ============================= -->
+<!-- COMPOUND TOP 3 -->
+<!-- ============================= -->
+
+<div class="panel" style="margin-top: 30px;">
+
+    <div style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 12px 15px;
+    margin-bottom: 20px;
+    border-bottom: 2px solid var(--brand);
+">
+    <h2 style="margin: 0;">
+        Compound Ranking : Grade 9-12</h2>
+
+    <span style="font-weight: 600;">
+        School-wide Top 3
+    </span>
+</div>
+
+    <div class="table-wrap">
+
+        <table>
+
+            <thead>
+
+                <tr>
+                    <th>Student</th>
+                    <th>Grade</th>
+                    <th>Section</th>
+                    <th>Stream</th>
+                    <th>Average</th>
+                    <th>Rank</th>
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                {% for item in compound_ranking %}
+
+                    <tr>
+
+                        <td>
+                            {{ item.student.first_name }}
+                            {{ item.student.father_name }}
+                        </td>
+
+                        <td>
+                            {{ item.student.grade }}
+                        </td>
+
+                        <td>
+                            {{ item.student.section }}
+                        </td>
+
+                        <td>
+                            {% if item.student.stream %}
+                                {{ item.student.stream|title }}
+                            {% else %}
+                                —
+                            {% endif %}
+                        </td>
+
+                        <td>
+                            {{ item.average|floatformat:2 }}
+                        </td>
+
+                        <td>
+                            <b>{{ item.rank }}</b>
+                        </td>
+
+                    </tr>
+
+                {% empty %}
+
+                    <tr>
+                        <td colspan="6">
+                            No completed results yet.
+                        </td>
+                    </tr>
+
+                {% endfor %}
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+{% endblock %}
+

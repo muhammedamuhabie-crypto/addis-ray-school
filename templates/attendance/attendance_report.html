@@ -1,0 +1,430 @@
+﻿{% extends 'base.html' %}
+
+{% block title %}Attendance Report - Addis Ray Secondary School{% endblock %}
+
+{% block heading %}Attendance Report{% endblock %}
+
+{% block content %}
+
+<div class="card p-4 mb-4">
+
+    <h3 class="mb-3">Attendance Summary</h3>
+
+    <form method="get" class="row g-3">
+
+        <div class="col-md-4">
+            <label class="form-label">Date</label>
+            <input type="date"
+                   name="date"
+                   value="{{ selected_date }}"
+                   class="form-control">
+        </div>
+
+        <div class="col-md-4">
+            <label class="form-label">Grade</label>
+            <select name="grade" class="form-select">
+
+                <option value="">All Grades</option>
+
+                <option value="9" {% if selected_grade == "9" %}selected{% endif %}>
+                    Grade 9
+                </option>
+
+                <option value="10" {% if selected_grade == "10" %}selected{% endif %}>
+                    Grade 10
+                </option>
+
+                <option value="11" {% if selected_grade == "11" %}selected{% endif %}>
+                    Grade 11
+                </option>
+
+                <option value="12" {% if selected_grade == "12" %}selected{% endif %}>
+                    Grade 12
+                </option>
+
+            </select>
+        </div>
+
+        <div class="col-md-4">
+
+            <label class="form-label">Section</label>
+
+            <select name="section" class="form-select">
+
+                <option value="">All Sections</option>
+
+                <option value="A" {% if selected_section == "A" %}selected{% endif %}>
+                    Section A
+                </option>
+
+                <option value="B" {% if selected_section == "B" %}selected{% endif %}>
+                    Section B
+                </option>
+
+                <option value="C" {% if selected_section == "C" %}selected{% endif %}>
+                    Section C
+                </option>
+
+                <option value="D" {% if selected_section == "D" %}selected{% endif %}>
+                    Section D
+                </option>
+
+            </select>
+
+        </div>
+
+        <div class="col-12">
+
+            <button type="submit" class="btn btn-primary">
+                Filter Report
+            </button>
+
+            <a href="{% url 'attendance_report' %}"
+               class="btn btn-outline-secondary">
+                Clear
+            </a>
+
+        </div>
+
+    </form>
+
+</div>
+
+
+<div class="row g-3 mb-4">
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <small>Total Records</small>
+            <h2>{{ total }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <small>Present</small>
+            <h2>{{ present }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <small>Late</small>
+            <h2>{{ late }}</h2>
+        </div>
+    </div>
+
+    <div class="col-md-3">
+        <div class="card p-3">
+            <small>Absent</small>
+            <h2>{{ absent }}</h2>
+        </div>
+    </div>
+
+</div>
+
+
+<div class="card p-4 mb-4">
+
+    <h3>Overall Attendance</h3>
+
+    <div class="progress mb-2" style="height: 25px;">
+
+        <div class="progress-bar"
+             role="progressbar"
+             style="width: {{ attendance_percentage }}%;">
+
+            {{ attendance_percentage|floatformat:1 }}%
+
+        </div>
+
+    </div>
+
+</div>
+
+
+{% if grouped_stats %}
+
+    {% regroup grouped_stats by grade as grade_groups %}
+
+    {% for grade_group in grade_groups %}
+
+        <!-- GRADE HEADING -->
+
+        <div style="
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 15px;
+            margin-top: 25px;
+            margin-bottom: 15px;
+            border-bottom: 2px solid var(--brand);
+        ">
+
+            <h2 style="margin: 0;">
+                Grade {{ grade_group.grouper }}
+            </h2>
+
+            <span style="font-weight: 600;">
+                Attendance Report
+            </span>
+
+        </div>
+
+
+        {% if grade_group.grouper == 11 or grade_group.grouper == 12 %}
+
+            <!-- STREAM GROUPING -->
+
+            {% regroup grade_group.list by stream as stream_groups %}
+
+            {% for stream_group in stream_groups %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 10px 15px;
+                    margin-top: 15px;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid var(--brand);
+                ">
+
+                    <h3 style="margin: 0;">
+                        {{ stream_group.grouper|title }} Stream
+                    </h3>
+
+                    <span style="font-weight: 600;">
+                        Attendance
+                    </span>
+
+                </div>
+
+
+                <!-- SECTION GROUPING -->
+
+                {% for group in stream_group.list %}
+
+                    <div style="
+                        display: flex;
+                        justify-content: space-between;
+                        align-items: center;
+                        padding: 9px 15px;
+                        margin-top: 10px;
+                        margin-bottom: 10px;
+                        border-bottom: 2px solid var(--brand);
+                    ">
+
+                        <h3 style="margin: 0;">
+                            Section {{ group.section }}
+                        </h3>
+
+                        <span style="font-weight: 600;">
+                            {{ group.students|length }}
+                            student{{ group.students|length|pluralize }}
+                        </span>
+
+                    </div>
+
+
+                    <div class="card p-4 mb-4">
+
+                        <div class="table-responsive">
+
+                            <table class="table table-hover align-middle">
+
+                                <thead>
+
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>Grade</th>
+                                        <th>Section</th>
+                                        <th>Total</th>
+                                        <th>Present</th>
+                                        <th>Late</th>
+                                        <th>Absent</th>
+                                        <th>Attendance %</th>
+                                    </tr>
+
+                                </thead>
+
+                                <tbody>
+
+                                    {% for item in group.students %}
+
+                                        <tr>
+
+                                            <td>
+                                                {{ item.student.first_name }}
+                                                {{ item.student.father_name }}
+                                            </td>
+
+                                            <td>
+                                                {{ item.student.grade }}
+                                            </td>
+
+                                            <td>
+                                                {{ item.student.section }}
+                                            </td>
+
+                                            <td>
+                                                {{ item.total }}
+                                            </td>
+
+                                            <td>
+                                                {{ item.present }}
+                                            </td>
+
+                                            <td>
+                                                {{ item.late }}
+                                            </td>
+
+                                            <td>
+                                                {{ item.absent }}
+                                            </td>
+
+                                            <td>
+                                                <strong>
+                                                    {{ item.percentage|floatformat:1 }}%
+                                                </strong>
+                                            </td>
+
+                                        </tr>
+
+                                    {% endfor %}
+
+                                </tbody>
+
+                            </table>
+
+                        </div>
+
+                    </div>
+
+                {% endfor %}
+
+            {% endfor %}
+
+
+        {% else %}
+
+            <!-- GRADES 9 AND 10 -->
+
+            {% for group in grade_group.list %}
+
+                <div style="
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    padding: 9px 15px;
+                    margin-top: 10px;
+                    margin-bottom: 10px;
+                    border-bottom: 2px solid var(--brand);
+                ">
+
+                    <h3 style="margin: 0;">
+                        Section {{ group.section }}
+                    </h3>
+
+                    <span style="font-weight: 600;">
+                        {{ group.students|length }}
+                        student{{ group.students|length|pluralize }}
+                    </span>
+
+                </div>
+
+
+                <div class="card p-4 mb-4">
+
+                    <div class="table-responsive">
+
+                        <table class="table table-hover align-middle">
+
+                            <thead>
+
+                                <tr>
+                                    <th>Student</th>
+                                    <th>Grade</th>
+                                    <th>Section</th>
+                                    <th>Total</th>
+                                    <th>Present</th>
+                                    <th>Late</th>
+                                    <th>Absent</th>
+                                    <th>Attendance %</th>
+                                </tr>
+
+                            </thead>
+
+                            <tbody>
+
+                                {% for item in group.students %}
+
+                                    <tr>
+
+                                        <td>
+                                            {{ item.student.first_name }}
+                                            {{ item.student.father_name }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.student.grade }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.student.section }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.total }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.present }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.late }}
+                                        </td>
+
+                                        <td>
+                                            {{ item.absent }}
+                                        </td>
+
+                                        <td>
+                                            <strong>
+                                                {{ item.percentage|floatformat:1 }}%
+                                            </strong>
+                                        </td>
+
+                                    </tr>
+
+                                {% endfor %}
+
+                            </tbody>
+
+                        </table>
+
+                    </div>
+
+                </div>
+
+            {% endfor %}
+
+        {% endif %}
+
+    {% endfor %}
+
+
+{% else %}
+
+    <div class="card p-4">
+
+        <div class="alert alert-info mb-0">
+            No attendance records found for the selected filters.
+        </div>
+
+    </div>
+
+{% endif %}
+
+{% endblock %}

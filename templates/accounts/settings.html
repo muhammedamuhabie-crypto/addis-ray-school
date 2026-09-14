@@ -1,0 +1,164 @@
+{% extends 'base.html' %}
+
+{% block title %}
+School Settings - Addis Ray Secondary School
+{% endblock %}
+
+{% block heading %}
+School Settings
+{% endblock %}
+
+{% block content %}
+
+<div class="settings-page">
+
+    <div class="settings-intro">
+        <div>
+            <h2>School Settings</h2>
+            <p>
+                Manage the school's information, academic configuration,
+                attendance, and ranking preferences.
+            </p>
+        </div>
+    </div>
+
+    <form method="post" enctype="multipart/form-data">
+
+        {% csrf_token %}
+
+        {{ form.non_field_errors }}
+
+        <div class="settings-section">
+
+            <div class="settings-section-header">
+                <div>
+                    <h3>School Information</h3>
+                    <p>Basic information displayed throughout the school system.</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+
+                {% for field in form %}
+
+                    {% if field.name == 'school_name' or field.name == 'school_address' or field.name == 'school_phone' or field.name == 'school_email' or field.name == 'school_logo' %}
+
+                        <div class="field">
+
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% for error in field.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-section">
+
+            <div class="settings-section-header">
+                <div>
+                    <h3>Academic Settings</h3>
+                    <p>Configure the current academic period and grading rules.</p>
+                </div>
+            </div>
+
+            <div class="form-grid">
+
+                {% for field in form %}
+
+                    {% if field.name == 'academic_year' or field.name == 'current_semester' or field.name == 'passing_mark' %}
+
+                        <div class="field">
+
+                            <label for="{{ field.id_for_label }}">
+                                {{ field.label }}
+                            </label>
+
+                            {{ field }}
+
+                            {% for error in field.errors %}
+                                <div class="text-danger mt-1">
+                                    {{ error }}
+                                </div>
+                            {% endfor %}
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-section">
+
+            <div class="settings-section-header">
+                <div>
+                    <h3>School Operations</h3>
+                    <p>Control attendance and ranking features.</p>
+                </div>
+            </div>
+
+            <div class="settings-options">
+
+                {% for field in form %}
+
+                    {% if field.name == 'attendance_daily' or field.name == 'ranking_enabled' %}
+
+                        <div class="settings-option">
+
+                            <div>
+                                <label for="{{ field.id_for_label }}">
+                                    {{ field.label }}
+                                </label>
+                                <p>
+                                    {{ field.help_text }}
+                                </p>
+                            </div>
+
+                            <div class="settings-checkbox">
+                                {{ field }}
+                            </div>
+
+                        </div>
+
+                    {% endif %}
+
+                {% endfor %}
+
+            </div>
+
+        </div>
+
+
+        <div class="settings-actions">
+
+            <button type="submit" class="btn btn-brand">
+                Save Settings
+            </button>
+
+        </div>
+
+    </form>
+
+</div>
+
+{% endblock %}
