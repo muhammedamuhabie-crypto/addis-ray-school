@@ -1,0 +1,23 @@
+﻿[Unit]
+Description=Addis Ray Secondary School Django application
+After=network.target postgresql.service
+
+[Service]
+User=addisray
+Group=www-data
+WorkingDirectory=/opt/addis_ray_school
+EnvironmentFile=/opt/addis_ray_school/.env
+
+RuntimeDirectory=addis_ray_school
+RuntimeDirectoryMode=0755
+
+ExecStart=/opt/addis_ray_school/venv/bin/gunicorn \
+    --workers 3 \
+    --bind unix:/run/addis_ray_school/addis_ray_school.sock \
+    config.wsgi:application
+
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
