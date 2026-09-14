@@ -45,6 +45,7 @@ DATABASES = {
         'PASSWORD': os.environ.get('DB_PASSWORD', ''),
         'HOST': os.environ.get('DB_HOST', 'localhost'),
         'PORT': os.environ.get('DB_PORT', '5432'),
+        'OPTIONS': {'sslmode': 'require'},
     }
 }
 AUTH_PASSWORD_VALIDATORS = [
@@ -166,3 +167,5 @@ SERVER_EMAIL = os.environ.get(
     'DJANGO_SERVER_EMAIL',
     DEFAULT_FROM_EMAIL
 )
+
+
