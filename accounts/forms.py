@@ -101,6 +101,11 @@ class CreateUserForm(forms.ModelForm):
 
 class SchoolSettingsForm(forms.ModelForm):
 
+    remove_school_logo = forms.BooleanField(
+        required=False,
+        label='Remove current logo'
+    )
+
     class Meta:
         model = SchoolSettings
 
@@ -147,7 +152,7 @@ class SchoolSettingsForm(forms.ModelForm):
                 }
             ),
 
-            'school_logo': forms.ClearableFileInput(
+            'school_logo': forms.FileInput(
                 attrs={
                     'class': 'form-control'
                 }
@@ -187,3 +192,5 @@ class SchoolSettingsForm(forms.ModelForm):
                 }
             ),
         }
+
+

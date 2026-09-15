@@ -1,4 +1,4 @@
-﻿from django.contrib import messages
+from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.views import (
@@ -180,7 +180,14 @@ def school_settings(request):
     )
 
     if request.method == 'POST' and form.is_valid():
-        form.save()
+        settings = form.save(commit=False)
+
+        if form.cleaned_data.get('remove_school_logo'):
+            if settings.school_logo:
+                settings.school_logo.delete(save=False)
+            settings.school_logo = None
+
+        settings.save()
 
         messages.success(
             request,
@@ -197,4 +204,6 @@ def school_settings(request):
             'settings': settings,
         }
     )
+
+
 
